@@ -42,6 +42,8 @@ const filterStatus = document.getElementById('filterStatus');
 const refreshSuppliersBtn = document.getElementById('refreshSuppliersBtn');
 const supplierForm = document.getElementById('supplierForm');
 
+const { parseApiError, normalizeApiBase, formatFileSize } = window.BackofficeUtils || {};
+
 let selectedFile = null;
 
 function setStatus(message, type = '') {
@@ -100,7 +102,10 @@ function setSuppliersStatus(message, type = '') {
 
 function getApiBase() {
   const inputValue = apiBaseUrlInput.value.trim();
-  const value = (inputValue || localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE).replace(/\/+$/, '');
+  const value = normalizeApiBase(
+    inputValue || localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE,
+    DEFAULT_API_BASE,
+  );
   localStorage.setItem(API_BASE_KEY, value);
   if (apiBaseUrlInput.value.trim() !== value) {
     apiBaseUrlInput.value = value;
@@ -174,13 +179,7 @@ function showProtectedApp() {
 }
 
 function parseErrorDetail(payload, fallback) {
-  if (!payload || payload.detail === undefined) {
-    return fallback;
-  }
-  if (typeof payload.detail === 'string') {
-    return payload.detail;
-  }
-  return JSON.stringify(payload.detail);
+  return parseApiError(payload, fallback);
 }
 
 async function apiFetch(path, options = {}) {
@@ -223,7 +222,7 @@ async function apiFetch(path, options = {}) {
 function onFileSelected(file) {
   selectedFile = file;
   analyzeBtn.disabled = false;
-  fileInfo.textContent = `Archivo seleccionado: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+  fileInfo.textContent = `Archivo seleccionado: ${file.name} (${formatFileSize(file.size)})`;
   setStatus('Archivo listo para analizar.', 'ok');
 }
 

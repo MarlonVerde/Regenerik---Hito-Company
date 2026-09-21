@@ -23,3 +23,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+# Test artifacts
+.coverage
+coverage/
+services/api/.coverage
+node_modules/

@@ -1,0 +1,10 @@
+{
+  "name": "brasaland-frontend-tests",
+  "private": true,
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^30.0.0"
+  }
+}
