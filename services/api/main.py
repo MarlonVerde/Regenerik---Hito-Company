@@ -14,6 +14,10 @@ PACKAGES_DIR = Path(__file__).resolve().parents[2] / "packages"
 if str(PACKAGES_DIR) not in sys.path:
     sys.path.insert(0, str(PACKAGES_DIR))
 
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+if str(REPOSITORY_ROOT) not in sys.path:
+    sys.path.append(str(REPOSITORY_ROOT))
+
 from shared.incidents_analysis import (  # noqa: E402
     analyze_csv_text,
     metrics_rows_to_csv,
@@ -21,6 +25,10 @@ from shared.incidents_analysis import (  # noqa: E402
     to_summary,
 )
 from auth import get_current_user  # noqa: E402
+from database import engine  # noqa: E402
+from sqlmodel import SQLModel  # noqa: E402
+import services.models as inventory_models  # noqa: E402,F401
+from services.routers.inventory import router as inventory_router  # noqa: E402
 from routes.auth import router as auth_router  # noqa: E402
 from routes.profiles import router as profiles_router  # noqa: E402
 from routes.suppliers import router as suppliers_router  # noqa: E402
@@ -112,3 +120,6 @@ app.include_router(users_router)
 app.include_router(profiles_router)
 app.include_router(suppliers_router, dependencies=[Depends(get_current_user)])
 app.include_router(suppliers_router, prefix="/api", dependencies=[Depends(get_current_user)])
+
+SQLModel.metadata.create_all(engine)
+app.include_router(inventory_router)

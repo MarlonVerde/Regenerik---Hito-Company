@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import logging
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
 from typing import Any
 from uuid import uuid4
 
+from dotenv import load_dotenv
+from sqlmodel import Session, create_engine
 from tinydb import Query, TinyDB
 
 from models import Profile, ProfileCreate, ProfileUpdate, Supplier, SupplierCreate, User, UserCreate, UserUpdate
@@ -435,3 +438,27 @@ class ProfileStore:
         with self._lock:
             removed_ids = self._table.remove(self._query.user_id == user_id)
             return bool(removed_ids)
+
+
+# Keep TinyDB for users, profiles, suppliers, and authentication. SQLModel is
+# reserved for the Supabase-backed inventory entities.
+# The API's own environment file is authoritative when present; services/.env
+# remains a fallback for setups that keep shared service configuration there.
+load_dotenv(Path(__file__).resolve().parent / ".env")
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL no está configurada")
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=False,
+    pool_pre_ping=True,
+)
+
+
+def get_db():
+    with Session(engine) as session:
+        yield session

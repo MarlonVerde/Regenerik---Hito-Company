@@ -9,6 +9,8 @@ dependencies = [
   "tinydb==4.8.2",
   "python-jose[cryptography]==3.5.0",
   "libpass[bcrypt]>=1.9.3",
+  "sqlmodel>=0.0.47",
+  "psycopg2-binary>=2.9.13",
 ]
 
 [dependency-groups]
