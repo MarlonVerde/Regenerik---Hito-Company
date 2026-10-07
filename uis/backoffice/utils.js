@@ -4,7 +4,7 @@ function parseApiError(payload, fallback = 'Error de API') {
   return JSON.stringify(payload.detail);
 }
 
-function normalizeApiBase(value, fallback = 'http://127.0.0.1:8000') {
+function normalizeApiBase(value, fallback = 'http://localhost:8000') {
   const normalized = String(value ?? '').trim().replace(/\/+$/, '');
   return normalized || fallback;
 }

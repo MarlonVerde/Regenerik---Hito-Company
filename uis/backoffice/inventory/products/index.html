@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario | Brasaland Backoffice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body data-inventory-page="products">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Ops Console</h1>
+    <nav class="menu inventory-nav" aria-label="Navegación de inventario">
+      <a href="../products/" aria-current="page">Productos</a>
+      <a href="../orders/inbound/">Entrada</a>
+      <a href="../orders/outbound/">Salida</a>
+      <a href="../orders/">Historial</a>
+      <p id="currentUser" class="current-user"></p>
+      <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
+      <a href="../../index.html" class="ghost-link">Backoffice</a>
+    </nav>
+  </header>
+  <main class="layout inventory-layout">
+    <section class="panel inventory-panel">
+      <div class="inventory-heading">
+        <div>
+          <p class="eyebrow">Operaciones / Inventario</p>
+          <h2>Productos</h2>
+        </div>
+        <a class="btn primary" href="../orders/inbound/">Registrar entrada</a>
+      </div>
+      <p class="muted">El nivel bajo se define como 5 unidades o menos; por encima de 5 se muestra saludable.</p>
+      <p id="pageStatus" class="status" role="status" aria-live="polite">Cargando productos...</p>
+      <div class="table-wrap inventory-table-wrap">
+        <table id="productsTable" class="inventory-table">
+          <thead><tr><th>Producto</th><th>SKU</th><th>Categoría</th><th>País</th><th>Unidad</th><th>Stock actual</th><th>Entrada</th><th>Salida</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="../../inventory.js"></script>
+  <script src="../../inventory-pages.js"></script>
+</body>
+</html>

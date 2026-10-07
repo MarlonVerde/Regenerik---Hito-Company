@@ -1,6 +1,6 @@
 const TOKEN_KEY = 'brasaland.jwt';
 const API_BASE_KEY = 'brasaland.apiBase';
-const DEFAULT_API_BASE = 'http://127.0.0.1:8000';
+const DEFAULT_API_BASE = 'http://localhost:8000';
 
 function getAppBase() {
   const marker = '/uis/backoffice/';

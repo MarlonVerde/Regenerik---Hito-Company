@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from sqlmodel import Field, Relationship, SQLModel
@@ -22,7 +22,7 @@ class IngredientEntry(SQLModel, table=True):
     quantity: float
     supplier_name: str
     location_id: int
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     user_uuid: str
 
     product: Optional[Ingredient] = Relationship(back_populates="entries")
@@ -34,7 +34,7 @@ class IngredientExit(SQLModel, table=True):
     quantity: float
     reason: str
     location_id: int
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     user_uuid: str
 
     product: Optional[Ingredient] = Relationship(back_populates="exits")
