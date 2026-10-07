@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+import os
 from pathlib import Path
 
 SERVICES_DIR = Path(__file__).resolve().parent
@@ -14,14 +15,14 @@ for directory in (str(REPOSITORY_ROOT), str(API_DIR)):
         sys.path.remove(directory)
     sys.path.insert(0, directory)
 
-from sqlmodel import Session, SQLModel, select  # noqa: E402
+from sqlmodel import Session, select  # noqa: E402
 
-from database import engine  # noqa: E402
+from database import get_engine  # noqa: E402
+from init_db import initialize_database  # noqa: E402
 from services.models import Ingredient, IngredientEntry, IngredientExit  # noqa: E402
 
-# Set this to the authenticated TinyDB user's actual `id` from
-# services/api/data/auth.json. The API stores `id`, not a `uuid` attribute.
-USER_UUID = "PEGA_ACA_EL_ID_REAL_DE_TINYDB"
+# Set BRASALAND_SEED_USER_ID to the authenticated TinyDB user's actual `id`.
+USER_UUID = os.getenv("BRASALAND_SEED_USER_ID", "").strip()
 
 INGREDIENTS = [
     {
@@ -70,15 +71,14 @@ INGREDIENTS = [
 
 
 def seed() -> None:
-    if USER_UUID == "PEGA_ACA_EL_ID_REAL_DE_TINYDB" or not USER_UUID.strip():
+    if not USER_UUID:
         raise RuntimeError(
-            "Configurá USER_UUID con el id real de un usuario existente en "
-            "services/api/data/auth.json antes de ejecutar el seed."
+            "Configura BRASALAND_SEED_USER_ID con el id de un usuario local antes de ejecutar el seed."
         )
 
-    SQLModel.metadata.create_all(engine)
+    initialize_database()
 
-    with Session(engine) as db:
+    with Session(get_engine()) as db:
         existing = db.exec(select(Ingredient)).first()
         if existing:
             print("Ya hay ingredientes cargados. No se ejecutó el seed.")

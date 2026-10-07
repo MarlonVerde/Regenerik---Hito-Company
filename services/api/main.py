@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import logging
+import os
 import sys
 from pathlib import Path
 
-import logging
-
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 PACKAGES_DIR = Path(__file__).resolve().parents[2] / "packages"
 if str(PACKAGES_DIR) not in sys.path:
@@ -25,24 +26,35 @@ from shared.incidents_analysis import (  # noqa: E402
     to_summary,
 )
 from auth import get_current_user  # noqa: E402
-from database import engine  # noqa: E402
-from sqlmodel import SQLModel  # noqa: E402
-import services.models as inventory_models  # noqa: E402,F401
+from database import get_engine  # noqa: E402
+import services.models  # noqa: E402,F401
 from services.routers.inventory import router as inventory_router  # noqa: E402
 from routes.auth import router as auth_router  # noqa: E402
 from routes.profiles import router as profiles_router  # noqa: E402
 from routes.suppliers import router as suppliers_router  # noqa: E402
 from routes.users import router as users_router  # noqa: E402
 
-app = FastAPI(title="Brasaland Operations API", version="1.0.0")
 logger = logging.getLogger(__name__)
+app = FastAPI(title="Brasaland Operations API", version="1.0.0")
+
+DEFAULT_CORS_ORIGINS = (
+    "http://localhost:5500,http://127.0.0.1:5500,"
+    "http://localhost:8080,http://127.0.0.1:8080"
+)
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ALLOWED_ORIGINS", DEFAULT_CORS_ORIGINS).split(",")
+    if origin.strip()
+]
+if "*" in CORS_ALLOWED_ORIGINS:
+    raise RuntimeError("CORS_ALLOWED_ORIGINS debe enumerar orígenes explícitos; no se admite '*'.")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=CORS_ALLOWED_ORIGINS,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 LATEST_SUMMARY: dict | None = None
@@ -51,7 +63,21 @@ LATEST_RESULTS_CSV: str | None = None
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok"}
+    return {"status": "alive"}
+
+
+@app.get("/health/ready")
+def readiness() -> dict:
+    try:
+        with get_engine().connect() as connection:
+            connection.execute(text("SELECT 1"))
+    except (RuntimeError, SQLAlchemyError) as error:
+        logger.warning("Readiness check failed: database unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Database unavailable",
+        ) from error
+    return {"status": "ready"}
 
 
 @app.post("/api/incidents/analyze", dependencies=[Depends(get_current_user)])
@@ -121,5 +147,4 @@ app.include_router(profiles_router)
 app.include_router(suppliers_router, dependencies=[Depends(get_current_user)])
 app.include_router(suppliers_router, prefix="/api", dependencies=[Depends(get_current_user)])
 
-SQLModel.metadata.create_all(engine)
 app.include_router(inventory_router)

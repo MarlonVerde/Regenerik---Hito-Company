@@ -43,6 +43,7 @@ const refreshSuppliersBtn = document.getElementById('refreshSuppliersBtn');
 const supplierForm = document.getElementById('supplierForm');
 
 const { parseApiError, normalizeApiBase, formatFileSize } = window.BackofficeUtils || {};
+const { buildSupplierRow } = window.BackofficeSupplierRenderer || {};
 
 let selectedFile = null;
 
@@ -511,36 +512,8 @@ function buildSupplierQuery() {
   return query ? `?${query}` : '';
 }
 
-function statusBadge(status) {
-  return `<span class="status-badge ${status}">${status}</span>`;
-}
-
 function renderSuppliers(items) {
-  suppliersTableBody.innerHTML = items
-    .map((supplier) => {
-      const nextStatus = supplier.status === 'active' ? 'suspended' : 'active';
-      return `
-      <tr>
-        <td>${supplier.name}</td>
-        <td>${supplier.country}</td>
-        <td>${supplier.categories.join(', ')}</td>
-        <td>${supplier.rate_per_unit}</td>
-        <td>${supplier.currency}</td>
-        <td>${statusBadge(supplier.status)}</td>
-        <td>
-          <div class="row-actions">
-            <form class="inline-rate" data-action="rate" data-id="${supplier.id}">
-              <input name="rate" type="number" min="0.01" step="0.01" value="${supplier.rate_per_unit}" required />
-              <button class="btn" type="submit">Tarifa</button>
-            </form>
-            <button class="btn" data-action="status" data-id="${supplier.id}" data-status="${nextStatus}">
-              ${nextStatus === 'active' ? 'Activar' : 'Suspender'}
-            </button>
-          </div>
-        </td>
-      </tr>`;
-    })
-    .join('');
+  suppliersTableBody.replaceChildren(...items.map((supplier) => buildSupplierRow(supplier)));
 }
 
 async function fetchSuppliers() {

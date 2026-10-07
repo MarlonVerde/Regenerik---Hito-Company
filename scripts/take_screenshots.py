@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
@@ -14,8 +15,8 @@ API_BASE = "http://127.0.0.1:8000"
 BACKOFFICE_URL = "http://127.0.0.1:8080/uis/backoffice/index.html"
 WEB_URL = "http://127.0.0.1:8080/uis/web/index.html"
 
-TEST_EMAIL = "admin@brasaland.co"
-TEST_PASSWORD = "testpass123"
+TEST_EMAIL = os.getenv("BRASALAND_SCREENSHOT_EMAIL")
+TEST_PASSWORD = os.getenv("BRASALAND_SCREENSHOT_PASSWORD")
 
 
 def login(page, url: str) -> None:
@@ -48,6 +49,13 @@ def take_screenshot(page, filename: str, description: str) -> None:
 
 
 def take_screenshots() -> None:
+    if not TEST_EMAIL or not TEST_PASSWORD:
+        print(
+            "Configura BRASALAND_SCREENSHOT_EMAIL y BRASALAND_SCREENSHOT_PASSWORD en el entorno local.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True)

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlmodel import Session, func, select
 
 from database import get_db
@@ -15,7 +16,11 @@ from schemas import (
 # Ajustá solamente este import a la ubicación REAL de tu auth existente.
 from auth import get_current_user
 
-router = APIRouter(prefix="/inventory", tags=["inventory"])
+router = APIRouter(
+    prefix="/inventory",
+    tags=["inventory"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 def calculate_stock(
@@ -34,6 +39,27 @@ def calculate_stock(
     total_out = db.exec(outbound_statement).one()
 
     return total_in - total_out
+
+
+def get_product(db: Session, product_id: int, *, lock: bool = False) -> Ingredient:
+    statement = select(Ingredient).where(Ingredient.id == product_id)
+    if lock:
+        statement = statement.with_for_update()
+    product = db.exec(statement).first()
+    if product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
+def commit_or_conflict(db: Session, detail: str) -> None:
+    try:
+        db.commit()
+    except IntegrityError as error:
+        db.rollback()
+        raise HTTPException(status_code=409, detail=detail) from error
+    except SQLAlchemyError as error:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Database operation failed") from error
 
 
 @router.get("/products", response_model=list[IngredientResponse])
@@ -65,11 +91,10 @@ def get_products(db: Session = Depends(get_db)) -> list[IngredientResponse]:
 def create_product(
     payload: IngredientCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
 ) -> IngredientResponse:
     product = Ingredient(**payload.model_dump())
     db.add(product)
-    db.commit()
+    commit_or_conflict(db, "A product with this SKU already exists")
     db.refresh(product)
 
     if product.id is None:
@@ -83,10 +108,8 @@ def create_product(
 
 
 @router.get("/products/{product_id}", response_model=IngredientResponse)
-def get_product(product_id: int, db: Session = Depends(get_db)) -> IngredientResponse:
-    product = db.get(Ingredient, product_id)
-    if product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
+def get_product_detail(product_id: int, db: Session = Depends(get_db)) -> IngredientResponse:
+    product = get_product(db, product_id)
 
     if product.id is None:
         raise HTTPException(status_code=500, detail="Product has no identifier")
@@ -107,11 +130,9 @@ def get_product(product_id: int, db: Session = Depends(get_db)) -> IngredientRes
 def create_inbound_order(
     payload: IngredientEntryCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
 ) -> IngredientEntryResponse:
-    product = db.get(Ingredient, payload.ingredient_id)
-    if product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
+    get_product(db, payload.ingredient_id, lock=True)
 
     # The authenticated TinyDB user has an `id` (not a `uuid` attribute).
     order = IngredientEntry(
@@ -119,7 +140,7 @@ def create_inbound_order(
         user_uuid=str(current_user["id"]),
     )
     db.add(order)
-    db.commit()
+    commit_or_conflict(db, "Unable to save inbound inventory order")
     db.refresh(order)
     return IngredientEntryResponse.model_validate(order)
 
@@ -128,11 +149,9 @@ def create_inbound_order(
 def create_outbound_order(
     payload: IngredientExitCreate,
     db: Session = Depends(get_db),
-    current_user=Depends(get_current_user),
+    current_user: dict = Depends(get_current_user),
 ) -> IngredientExitResponse:
-    product = db.get(Ingredient, payload.ingredient_id)
-    if product is None:
-        raise HTTPException(status_code=404, detail="Product not found")
+    product = get_product(db, payload.ingredient_id, lock=True)
 
     if product.id is None:
         raise HTTPException(status_code=500, detail="Product has no identifier")
@@ -153,7 +172,7 @@ def create_outbound_order(
         user_uuid=str(current_user["id"]),
     )
     db.add(order)
-    db.commit()
+    commit_or_conflict(db, "Unable to save outbound inventory order")
     db.refresh(order)
     return IngredientExitResponse.model_validate(order)
 

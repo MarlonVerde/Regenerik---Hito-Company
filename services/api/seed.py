@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from database import SUPPLIERS_SEED, SupplierStore
 
 
 def main() -> None:
-    storage_path = Path(__file__).resolve().parent / "data" / "suppliers.json"
+    storage_dir = Path(
+        os.environ.get("BRASALAND_DATA_DIR", Path(__file__).resolve().parent / "data" / "local")
+    )
+    storage_path = storage_dir / "suppliers.json"
     store = SupplierStore(storage_path=storage_path)
 
     inserted, skipped = store.seed_suppliers(SUPPLIERS_SEED)

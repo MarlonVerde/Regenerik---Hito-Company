@@ -21,11 +21,13 @@ Este repositorio es la **plantilla de inicio** para los proyectos transversales.
 
 ## Estado actual de la plantilla
 
-Actualmente el repositorio ofrece una **estructura base de carpetas y documentación**, pero todavía no incluye aplicaciones ejecutables ni scripts globales en la raíz.
+Este fork ya contiene código ejecutable además de la estructura original de la plantilla:
 
-- `CONTEXT.md` es un placeholder y debe sustituirse por el contexto de la empresa asignada.
-- No existe todavía un `AGENTS.md` en la raíz.
-- Existe metadata del paquete compartido en `packages/shared/package.json` (`@repo/shared-types`), pero aún no hay runner de workspace en raíz.
+- `services/api` contiene una API FastAPI para autenticación, perfiles, proveedores, análisis de incidentes e inventario.
+- `uis/web` y `uis/backoffice` son interfaces HTML/CSS/JavaScript estáticas; no son aplicaciones Next.js.
+- El inventario usa SQLModel/PostgreSQL; TinyDB conserva usuarios, perfiles y proveedores.
+- `packages/shared` contiene tipos TypeScript y lógica Python compartida; no hay un workspace npm raíz.
+- Las configuraciones locales se mantienen en `.env` ignorados por Git. Consulta [la guía de la API](services/api/README.es.md) antes de arrancar el backend.
 
 ---
 

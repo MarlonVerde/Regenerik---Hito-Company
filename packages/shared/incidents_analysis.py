@@ -7,6 +7,7 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from typing import TypedDict
 
 VALID_LOCATIONS = {f"COL-{i:02d}" for i in range(1, 11)} | {f"FLA-{i:02d}" for i in range(1, 5)}
 VALID_CATEGORIES = [
@@ -26,7 +27,25 @@ SCORE_LABELS = {
     5: "Very satisfied",
 }
 
-EXPECTED_CONTEXT_VALUES = {
+class ExpectedInvalidCounts(TypedDict):
+    missing_location: int
+    invalid_category: int
+    empty_description: int
+    closed_without_score: int
+
+
+class ExpectedContextValues(TypedDict):
+    total: int
+    valid: int
+    invalid: int
+    invalid_counts: ExpectedInvalidCounts
+    by_category: dict[str, int]
+    by_status: dict[str, int]
+    by_score: dict[int, int]
+    avg_score: float
+
+
+EXPECTED_CONTEXT_VALUES: ExpectedContextValues = {
     "total": 100,
     "valid": 96,
     "invalid": 4,
@@ -378,25 +397,25 @@ def verify_expected_values(result: AnalysisResult) -> list[str]:
             f"invalid: esperado {EXPECTED_CONTEXT_VALUES['invalid']}, obtenido {result.invalid}"
         )
 
-    for key, expected in EXPECTED_CONTEXT_VALUES["invalid_counts"].items():
-        got = result.invalid_counts[key]
+    for field, expected in EXPECTED_CONTEXT_VALUES["invalid_counts"].items():
+        got = result.invalid_counts[field]
         if got != expected:
-            mismatches.append(f"invalid_counts.{key}: esperado {expected}, obtenido {got}")
+            mismatches.append(f"invalid_counts.{field}: esperado {expected}, obtenido {got}")
 
-    for key, expected in EXPECTED_CONTEXT_VALUES["by_category"].items():
-        got = result.by_category[key]
+    for category, expected in EXPECTED_CONTEXT_VALUES["by_category"].items():
+        got = result.by_category[category]
         if got != expected:
-            mismatches.append(f"by_category.{key}: esperado {expected}, obtenido {got}")
+            mismatches.append(f"by_category.{category}: esperado {expected}, obtenido {got}")
 
-    for key, expected in EXPECTED_CONTEXT_VALUES["by_status"].items():
-        got = result.by_status[key]
+    for status, expected in EXPECTED_CONTEXT_VALUES["by_status"].items():
+        got = result.by_status[status]
         if got != expected:
-            mismatches.append(f"by_status.{key}: esperado {expected}, obtenido {got}")
+            mismatches.append(f"by_status.{status}: esperado {expected}, obtenido {got}")
 
-    for key, expected in EXPECTED_CONTEXT_VALUES["by_score"].items():
-        got = result.by_score[key]
+    for score, expected in EXPECTED_CONTEXT_VALUES["by_score"].items():
+        got = result.by_score[score]
         if got != expected:
-            mismatches.append(f"by_score.{key}: esperado {expected}, obtenido {got}")
+            mismatches.append(f"by_score.{score}: esperado {expected}, obtenido {got}")
 
     avg_score = calculate_average_score(result)
     if round(avg_score, 2) != EXPECTED_CONTEXT_VALUES["avg_score"]:

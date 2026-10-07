@@ -4,7 +4,7 @@ from typing import Optional
 from sqlmodel import Field, Relationship, SQLModel
 
 
-class Ingredient(SQLModel, table=True):
+class Ingredient(SQLModel, table=True):  # type: ignore[call-arg]
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     sku: str = Field(index=True, unique=True)
@@ -16,7 +16,7 @@ class Ingredient(SQLModel, table=True):
     exits: list["IngredientExit"] = Relationship(back_populates="product")
 
 
-class IngredientEntry(SQLModel, table=True):
+class IngredientEntry(SQLModel, table=True):  # type: ignore[call-arg]
     id: Optional[int] = Field(default=None, primary_key=True)
     ingredient_id: int = Field(foreign_key="ingredient.id")
     quantity: float
@@ -28,7 +28,7 @@ class IngredientEntry(SQLModel, table=True):
     product: Optional[Ingredient] = Relationship(back_populates="entries")
 
 
-class IngredientExit(SQLModel, table=True):
+class IngredientExit(SQLModel, table=True):  # type: ignore[call-arg]
     id: Optional[int] = Field(default=None, primary_key=True)
     ingredient_id: int = Field(foreign_key="ingredient.id")
     quantity: float

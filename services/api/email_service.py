@@ -135,9 +135,7 @@ def send_password_reset_email(to_email: str, reset_link: str, expires_in_minutes
         elif provider == "sendgrid":
             _send_via_sendgrid(to_email, subject, html_body)
         else:
-            logger.warning(
-                "EMAIL_PROVIDER no configurado; no se envio email real. Enlace de recuperacion: %s", reset_link
-            )
+            logger.warning("EMAIL_PROVIDER no configurado; no se envió email de recuperación.")
             return False
     except (urllib.error.URLError, RuntimeError) as error:
         logger.error("No se pudo enviar el email de recuperacion: %s", error)

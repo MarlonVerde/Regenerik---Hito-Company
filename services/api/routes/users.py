@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import JSONResponse
 
 from auth import get_current_user
-from models import UserCreate, UserUpdate
+from models import UserCreate, UserRole, UserUpdate
 from user_service import (
     create_user as svc_create_user,
     delete_user as svc_delete_user,
@@ -24,7 +24,8 @@ router = APIRouter(prefix="/users", tags=["users"])
 @router.post("", status_code=201)
 def create_user(payload: UserCreate) -> JSONResponse:
     try:
-        created = svc_create_user(payload=payload)
+        public_payload = payload.model_copy(update={"role": UserRole.user})
+        created = svc_create_user(payload=public_payload)
     except ValueError as error:
         logger.warning("Error al crear usuario: %s", error)
         raise HTTPException(status_code=400, detail="No se pudo crear el usuario. Verifica los datos e intenta de nuevo.") from error
@@ -34,8 +35,8 @@ def create_user(payload: UserCreate) -> JSONResponse:
 
 @router.get("")
 def list_users(current_user: dict = Depends(get_current_user)) -> JSONResponse:
-    del current_user
-    users = [to_public_user(user) for user in svc_list_users()]
+    records = svc_list_users() if current_user.get("role") == UserRole.admin.value else [current_user]
+    users = [to_public_user(user) for user in records]
     return JSONResponse(content={"items": users, "total": len(users)})
 
 

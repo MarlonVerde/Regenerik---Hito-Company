@@ -3,12 +3,14 @@ from __future__ import annotations
 import logging
 import os
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from threading import Lock
-from typing import Any
+from typing import Any, cast
 from uuid import uuid4
 
 from dotenv import load_dotenv
+from sqlalchemy.exc import ArgumentError
 from sqlmodel import Session, create_engine
 from tinydb import Query, TinyDB
 
@@ -221,7 +223,7 @@ class SupplierStore:
         category: str | None = None,
         status: str | None = None,
     ) -> list[dict[str, Any]]:
-        records = self._table.all()
+        records = cast(list[dict[str, Any]], self._table.all())
         filtered = []
         for record in records:
             if country and record["country"] != country:
@@ -242,7 +244,7 @@ class SupplierStore:
             return new_record
 
     def get(self, supplier_id: str) -> dict[str, Any] | None:
-        return self._table.get(self._query.id == supplier_id)
+        return cast(dict[str, Any] | None, self._table.get(self._query.id == supplier_id))
 
     def update_rate(self, supplier_id: str, new_rate: float) -> dict[str, Any] | None:
         with self._lock:
@@ -300,13 +302,13 @@ class UserStore:
         return len(self._table)
 
     def list(self) -> list[dict[str, Any]]:
-        return self._table.all()
+        return cast(list[dict[str, Any]], self._table.all())
 
     def get(self, user_id: str) -> dict[str, Any] | None:
-        return self._table.get(self._query.id == user_id)
+        return cast(dict[str, Any] | None, self._table.get(self._query.id == user_id))
 
     def get_by_email(self, email: str) -> dict[str, Any] | None:
-        return self._table.get(self._query.email == email.strip().lower())
+        return cast(dict[str, Any] | None, self._table.get(self._query.email == email.strip().lower()))
 
     def create(self, payload: UserCreate, hashed_password: str) -> dict[str, Any]:
         with self._lock:
@@ -315,7 +317,7 @@ class UserStore:
                 raise ValueError("Ya existe un usuario con ese email")
 
             current_time = now_iso()
-            record = {
+            record: dict[str, Any] = {
                 "id": str(uuid4()),
                 "email": payload.email,
                 "hashed_password": hashed_password,
@@ -334,7 +336,7 @@ class UserStore:
             if current is None:
                 return None
 
-            updated = dict(current)
+            updated: dict[str, Any] = dict(current)
             if payload.email is not None:
                 existing = self.get_by_email(payload.email)
                 if existing is not None and existing["id"] != user_id:
@@ -359,7 +361,7 @@ class UserStore:
             if current is None:
                 return None
 
-            updated = dict(current)
+            updated: dict[str, Any] = dict(current)
             updated["hashed_password"] = hashed_password
             updated["updated_at"] = now_iso()
             User(**updated)
@@ -390,13 +392,13 @@ class ProfileStore:
             raise RuntimeError(f"Error inesperado al inicializar perfiles: {error}") from error
 
     def list(self) -> list[dict[str, Any]]:
-        return self._table.all()
+        return cast(list[dict[str, Any]], self._table.all())
 
     def get(self, profile_id: str) -> dict[str, Any] | None:
-        return self._table.get(self._query.id == profile_id)
+        return cast(dict[str, Any] | None, self._table.get(self._query.id == profile_id))
 
     def get_by_user_id(self, user_id: str) -> dict[str, Any] | None:
-        return self._table.get(self._query.user_id == user_id)
+        return cast(dict[str, Any] | None, self._table.get(self._query.user_id == user_id))
 
     def create(self, payload: ProfileCreate) -> dict[str, Any]:
         with self._lock:
@@ -452,13 +454,16 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL no está configurada")
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=False,
-    pool_pre_ping=True,
-)
+@lru_cache(maxsize=1)
+def get_engine():
+    if not DATABASE_URL:
+        raise RuntimeError("DATABASE_URL no está configurada")
+    try:
+        return create_engine(DATABASE_URL, echo=False, pool_pre_ping=True)
+    except (ArgumentError, ModuleNotFoundError) as error:
+        raise RuntimeError("DATABASE_URL inválida o falta el driver PostgreSQL requerido") from error
 
 
 def get_db():
-    with Session(engine) as session:
+    with Session(get_engine()) as session:
         yield session

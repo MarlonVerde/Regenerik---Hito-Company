@@ -4,11 +4,13 @@ Backend service for incidents analysis and supplier directory management.
 
 Stack for supplier directory: FastAPI + TinyDB + Pydantic.
 
+The API also exposes inventory through FastAPI + SQLModel/PostgreSQL. Users and profiles remain in TinyDB.
+
 ## Password recovery email
 
 `POST /auth/forgot-password` sends the reset link by email using [Resend](https://resend.com) or [SendGrid](https://sendgrid.com), selected via the `EMAIL_PROVIDER` environment variable. No API key is ever hardcoded in the source; all values are loaded from environment variables (see `.env.example`).
 
-- `EMAIL_PROVIDER`: `resend` or `sendgrid`. If unset, the email is skipped and the reset link is only logged server-side (dev fallback).
+- `EMAIL_PROVIDER`: `resend` or `sendgrid`. If unset, email is skipped; reset links and tokens are never logged.
 - `RESEND_API_KEY` / `RESEND_FROM_EMAIL`: required when `EMAIL_PROVIDER=resend`.
 - `SENDGRID_API_KEY` / `SENDGRID_FROM_EMAIL`: required when `EMAIL_PROVIDER=sendgrid`.
 - `PASSWORD_RESET_TOKEN_EXPIRE_MINUTES`: reset token expiry window (default `15`).
@@ -54,21 +56,45 @@ Stack for supplier directory: FastAPI + TinyDB + Pydantic.
   - Returns latest analysis JSON summary.
 
 - `GET /health`
-  - Healthcheck.
+  - Liveness only; it does not check PostgreSQL.
+- `GET /health/ready`
+  - Readiness; runs `SELECT 1` and returns `503` when PostgreSQL is unavailable.
+
+### Inventory (Bearer token required)
+
+- `GET /inventory/products`, `GET /inventory/products/{product_id}`
+- `POST /inventory/products` with `name`, `sku`, `unit`, `category`, and `country`.
+- `POST /inventory/orders/inbound` with `ingredient_id`, `quantity`, `supplier_name`, and `location_id` (1–14).
+- `POST /inventory/orders/outbound` with `ingredient_id`, `quantity`, `reason` (`consumption` or `waste`), and `location_id` (1–14).
+- `GET /inventory/orders` returns movements with product, timestamp, and `user_uuid`.
+- All inventory reads and writes require `Authorization: Bearer <token>`. Stock is calculated from movements; outbound requests lock the product row in PostgreSQL and return `400` when quantity exceeds stock. Duplicate SKUs return `409`.
 
 ## Run
 
 ```bash
 cd services/api
-python3 -m pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uv sync --locked
+# Configure DATABASE_URL, AUTH_SECRET_KEY, and CORS_ALLOWED_ORIGINS in a local .env.
+uv run python init_db.py
+uv run uvicorn main:app --reload --port 8000
 ```
 
-Supplier data is persisted in TinyDB at `services/api/data/suppliers.json`.
-On first run, the file is auto-seeded with the Brasaland suppliers set.
+When using pip instead of uv, install `requirements.txt` for runtime; add `requirements-dev.txt` to run the test suite.
+
+The API no longer creates tables during import. Run `init_db.py` once to create the initial tables; this repository does not yet contain migrations. Set `CORS_ALLOWED_ORIGINS` to a comma-separated list of exact origins; the default allows only the documented local frontend servers.
+
+For a **development-only** administrator, set `APP_ENV=development`, `BOOTSTRAP_ADMIN_EMAIL`, and `BOOTSTRAP_ADMIN_PASSWORD` (at least 8 characters) locally, then run `uv run seed-admin`. Public registration always creates role `user`. Never commit credentials or `auth.json` data.
+
+`BRASALAND_DATA_DIR` can relocate TinyDB; the default is `services/api/data/local`. `BRASALAND_SEED_USER_ID` configures the local account used by `services/seed.py`.
+
+The keys are listed in [development-environment.example](development-environment.example); copy and fill them only in `services/api/.env`, which is ignored by Git.
+
+Runtime TinyDB data is persisted by default in `services/api/data/local/`, which is ignored by Git. `services/api/data/suppliers.json` remains a tracked seed dataset, not the runtime store.
 
 ## Seeder
 
 - Script: `services/api/seed.py`
 - Run: `uv run seed` (from `services/api`)
 - Behavior: inserts only missing suppliers (no duplicates) and prints inserted/skipped counts.
+
+`scripts/take_screenshots.py` is optional and requires Playwright/Chromium. Credentials come from `BRASALAND_SCREENSHOT_EMAIL` and `BRASALAND_SCREENSHOT_PASSWORD`; Playwright is not an API dependency.

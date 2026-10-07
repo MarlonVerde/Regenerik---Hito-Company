@@ -77,6 +77,20 @@ def test_forgot_password_does_not_reveal_unknown_email(client, monkeypatch):
     assert "email" not in response.json()
 
 
+def test_email_fallback_never_logs_recovery_link(monkeypatch, caplog):
+    from email_service import send_password_reset_email
+
+    recovery_link = "https://example.test/reset?token=unique-sensitive-token"
+    monkeypatch.setenv("EMAIL_PROVIDER", "")
+
+    with caplog.at_level("WARNING", logger="email_service"):
+        result = send_password_reset_email("person@example.test", recovery_link, 15)
+
+    assert result is False
+    assert recovery_link not in caplog.text
+    assert "unique-sensitive-token" not in caplog.text
+
+
 def test_change_password_rejects_wrong_current_and_accepts_valid(client, auth_headers):
     headers, _ = auth_headers
     wrong = client.post("/auth/change-password", headers=headers, json={"current_password": "wrong", "new_password": "new-password"})

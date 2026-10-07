@@ -1,5 +1,7 @@
 import os
+import secrets
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -9,12 +11,22 @@ API_DIR = Path(__file__).resolve().parents[1]
 if str(API_DIR) not in sys.path:
     sys.path.insert(0, str(API_DIR))
 
-os.environ.setdefault("AUTH_SECRET_KEY", "test-secret-key")
-os.environ.setdefault("EMAIL_PROVIDER", "")
+TEST_RUNTIME_DIR = Path(tempfile.mkdtemp(prefix="brasaland-tests-"))
+os.environ["BRASALAND_DATA_DIR"] = str(TEST_RUNTIME_DIR / "tinydb")
+os.environ["DATABASE_URL"] = os.getenv(
+    "BRASALAND_TEST_DATABASE_URL",
+    f"sqlite:///{TEST_RUNTIME_DIR / 'inventory.sqlite'}",
+)
+os.environ["AUTH_SECRET_KEY"] = secrets.token_urlsafe(32)
+os.environ["EMAIL_PROVIDER"] = ""
 
 from auth import hash_password  # noqa: E402
+import services.models  # noqa: E402,F401
+from init_db import initialize_database  # noqa: E402
 from main import app  # noqa: E402
 from stores import profile_store, user_store  # noqa: E402
+
+initialize_database()
 
 
 @pytest.fixture

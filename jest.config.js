@@ -1,8 +1,11 @@
 module.exports = {
   testEnvironment: 'node',
-  roots: ['<rootDir>/uis/backoffice/__tests__'],
-  collectCoverageFrom: ['uis/backoffice/utils.js'],
+  roots: ['<rootDir>/uis/backoffice'],
+  collectCoverageFrom: [
+    'uis/backoffice/**/*.js',
+    '!uis/backoffice/**/__tests__/**',
+  ],
   coverageThreshold: {
-    global: { lines: 80, functions: 80, statements: 80, branches: 70 },
+    'uis/backoffice/utils.js': { lines: 80, functions: 80, statements: 80, branches: 70 },
   },
 };

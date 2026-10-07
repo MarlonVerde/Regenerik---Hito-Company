@@ -13,10 +13,10 @@ dependencies = [
   "python-multipart==0.0.20",
   "tinydb==4.8.2",
   "python-dotenv>=1.0.1",
-  "sqlmodel>=0.0.24",
-  "psycopg[binary]>=3.2",
+  "sqlmodel>=0.0.47,<0.1",
+  "psycopg[binary]>=3.2,<4",
   "python-jose[cryptography]==3.5.0",
-  "libpass[bcrypt]>=1.9.3",
+  "bcrypt>=5.0.0,<6",
 ]
 
 [dependency-groups]
@@ -28,6 +28,7 @@ dev = [
 
 [project.scripts]
 seed = "seed:main"
+seed-admin = "seed_admin:main"
 
 [tool.hatch.build.targets.wheel]
 include = [
@@ -38,6 +39,8 @@ include = [
   "user_service.py",
   "models.py",
   "database.py",
+  "init_db.py",
+  "seed_admin.py",
   "schemas.py",
   "routes/*.py"
 ]

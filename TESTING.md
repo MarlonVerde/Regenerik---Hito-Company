@@ -40,7 +40,24 @@ uv run pytest --cov=services/api --cov-report=term-missing
 
 También funciona desde `services/api` con `uv run pytest --cov=. --cov-report=term-missing`.
 
-Resultado verificado: **20 tests passed**, **76% de cobertura total** y más de 70% en `auth.py` (**85%**).
+Resultado histórico de la suite anterior: **20 tests passed** y **76% de cobertura total**. Esas cifras ya no representan la suite actual.
+
+> El resultado anterior quedó obsoleto al añadirse la integración SQLModel. La suite vigente incluye pruebas para registro/roles, health/readiness, CORS, recuperación de contraseña e inventario.
+
+### Entorno aislado y ejecución vigente
+
+`tests/conftest.py` configura TinyDB y SQLite bajo un directorio temporal del sistema; no utiliza ni modifica `services/api/data/auth.json`. Desde la raíz:
+
+```bash
+uv lock --check
+uv lock --check --project services/api
+uv sync --locked --no-install-project
+uv run --locked pytest -q --cov=services/api --cov=services/routers/inventory --cov-report=term-missing
+```
+
+La prueba de concurrencia real usa `SELECT FOR UPDATE`, por lo que solo se ejecuta cuando `BRASALAND_TEST_DATABASE_URL` apunta a PostgreSQL de pruebas. Con SQLite queda marcada como omitida; otro test comprueba que la consulta PostgreSQL contiene el lock.
+
+El conjunto registrado incluye auth, usuarios/perfiles, proveedores, incidentes, inventario y healthchecks. No se afirma cobertura de un test si no aparece en el reporte ejecutado.
 
 Para actualizar específicamente la cobertura del backoffice:
 
@@ -73,4 +90,18 @@ npm install
 npm test
 ```
 
-Resultado verificado: **6 tests passed**, **85.71% de líneas**, **88.46% de ramas** y **100% de funciones**.
+El runner descubre los tests en `uis/backoffice/__tests__` y recoge cobertura de todos los módulos `uis/backoffice/**/*.js` (no solo helpers). Los módulos sin tests aparecen como 0% en el reporte. Ejecutar:
+
+```bash
+npm ci
+npm test -- --runInBand
+```
+
+La validación de sintaxis JS se puede ejecutar con `find uis -name '*.js' -print0 | xargs -0 -n1 node --check`.
+
+## Configuración del backend para pruebas
+
+- La app no crea tablas al importarse. Inicializa una base configurada con `cd services/api && uv run python init_db.py`.
+- `/health` comprueba liveness del proceso; `/health/ready` verifica la conexión SQL con `SELECT 1`.
+- No es necesario configurar credenciales de email para pytest: el fixture deshabilita el envío real y usa almacenamiento temporal.
+- El smoke concurrente PostgreSQL requiere `BRASALAND_TEST_DATABASE_URL`; no reutilices la base de producción para tests.
