@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Web | Cambiar contraseña</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body data-page="change-password">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Web</h1>
+    <div class="topbar-actions">
+      <a id="toProfile" class="ghost-link" href="../profile/">Volver al perfil</a>
+      <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel account-panel">
+      <h2>/account/change-password</h2>
+      <p class="muted">Requiere tu contraseña actual para confirmar el cambio.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <article class="card">
+        <form id="changePasswordForm" class="account-form">
+          <label>
+            Contraseña actual
+            <input name="current_password" type="password" required />
+            <small class="status error" data-field-error="current_password"></small>
+          </label>
+
+          <label>
+            Nueva contraseña
+            <input name="new_password" type="password" minlength="8" required />
+            <small class="status error" data-field-error="new_password"></small>
+          </label>
+
+          <label>
+            Confirmar nueva contraseña
+            <input name="confirm_password" type="password" minlength="8" required />
+          </label>
+
+          <button type="submit" class="btn primary">Actualizar contraseña</button>
+        </form>
+      </article>
+
+      <p id="statusMessage" class="status"></p>
+    </section>
+  </main>
+
+  <script src="../../auth-pages.js"></script>
+</body>
+</html>

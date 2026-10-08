@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Web | Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body data-page="profile">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Web</h1>
+    <div class="topbar-actions">
+      <a class="ghost-link" href="../../index.html">Volver al panel</a>
+      <a id="toChangePassword" class="ghost-link" href="../change-password/">Cambiar contraseña</a>
+      <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel account-panel">
+      <h2>/account/profile</h2>
+      <p class="muted">Datos de sesión desde GET /auth/me y actualización con PUT /profiles/me.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <article class="card">
+        <p><strong>Email:</strong> <span id="emailValue">-</span></p>
+        <p><strong>Rol:</strong> <span id="roleValue">-</span></p>
+
+        <form id="profileForm" class="account-form">
+          <label>
+            Nombre
+            <input name="name" type="text" />
+            <small class="status error" data-field-error="name"></small>
+          </label>
+
+          <label>
+            Teléfono
+            <input name="phone" type="text" />
+            <small class="status error" data-field-error="phone"></small>
+          </label>
+
+          <label>
+            Dirección
+            <input name="address" type="text" />
+            <small class="status error" data-field-error="address"></small>
+          </label>
+
+          <button type="submit" class="btn primary">Guardar perfil</button>
+        </form>
+      </article>
+
+      <p id="statusMessage" class="status"></p>
+    </section>
+  </main>
+
+  <script src="../../auth-pages.js"></script>
+</body>
+</html>

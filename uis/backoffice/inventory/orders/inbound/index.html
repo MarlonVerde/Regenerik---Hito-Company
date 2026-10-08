@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrada de inventario | Brasaland Backoffice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles.css">
+</head>
+<body data-inventory-page="inbound">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Ops Console</h1>
+    <nav class="menu inventory-nav" aria-label="Navegación de inventario">
+      <a href="../../products/">Productos</a>
+      <a href="../inbound/" aria-current="page">Entrada</a>
+      <a href="../outbound/">Salida</a>
+      <a href="../">Historial</a>
+      <p id="currentUser" class="current-user"></p>
+      <button id="logoutBtn" class="btn" type="button">Cerrar sesión</button>
+      <a href="../../../index.html" class="ghost-link">Backoffice</a>
+    </nav>
+  </header>
+  <main class="layout inventory-layout">
+    <section class="panel inventory-panel inventory-form-panel">
+      <div class="inventory-heading">
+        <div><p class="eyebrow">Operaciones / Inventario</p><h2>Registrar entrada</h2></div>
+        <a class="btn" href="../../products/">Ver productos</a>
+      </div>
+      <p class="muted">Registra el producto recibido, su proveedor y la sede de destino.</p>
+      <p id="pageStatus" class="status" role="status" aria-live="polite">Cargando productos...</p>
+      <form id="inboundForm" class="inventory-form">
+        <label>Producto
+          <select name="ingredient_id" required><option value="">Selecciona un producto</option></select>
+        </label>
+        <label>Cantidad recibida
+          <input name="quantity" type="number" min="0.01" step="any" required>
+        </label>
+        <label>Proveedor
+          <input name="supplier_name" type="text" autocomplete="organization" required>
+        </label>
+        <label>Sede
+          <select name="location_id" required><option value="">Selecciona una sede</option></select>
+        </label>
+        <button class="btn primary" type="submit" disabled>Guardar entrada</button>
+      </form>
+      <p id="formStatus" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="../../../inventory.js"></script>
+  <script src="../../../inventory-pages.js"></script>
+</body>
+</html>

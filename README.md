@@ -21,11 +21,13 @@ This repository is the **starter template** for transversal projects. You will w
 
 ## Current status of the template
 
-The repository currently provides a **base folder structure and documentation skeleton**. It does not include runnable apps or global scripts yet.
+This fork now includes runnable code alongside the original template structure:
 
-- `CONTEXT.md` is a placeholder and must be replaced with your assigned company context.
-- There is no root `AGENTS.md` yet.
-- Shared package metadata exists in `packages/shared/package.json` (`@repo/shared-types`), but no workspace runner is configured at root.
+- `services/api` contains FastAPI endpoints for authentication, profiles, suppliers, incident analysis, and inventory.
+- `uis/web` and `uis/backoffice` are static HTML/CSS/JavaScript frontends, not Next.js apps.
+- Inventory uses SQLModel/PostgreSQL; TinyDB retains users, profiles, and suppliers.
+- `packages/shared` contains TypeScript types and shared Python analysis logic; no root npm workspace is configured.
+- Keep local configuration in Git-ignored `.env` files. See the [API guide](services/api/README.md) before starting the backend.
 
 ---
 

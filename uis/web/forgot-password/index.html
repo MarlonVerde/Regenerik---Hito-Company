@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Web | Recuperar contraseña</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="forgot-password">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Web</h1>
+    <a id="toLogin" class="ghost-link" href="../login/">Ir a login</a>
+  </header>
+
+  <main class="layout">
+    <section class="panel auth-panel">
+      <h2>/forgot-password</h2>
+      <p class="muted">Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <form id="forgotPasswordForm" class="auth-form">
+        <label>
+          Email
+          <input name="email" type="email" required />
+          <small class="status error" data-field-error="email"></small>
+        </label>
+
+        <button type="submit" class="btn primary">Enviar enlace de recuperación</button>
+      </form>
+
+      <p id="statusMessage" class="status"></p>
+    </section>
+  </main>
+
+  <script src="../auth-pages.js"></script>
+</body>
+</html>

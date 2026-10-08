@@ -1,0 +1,230 @@
+{
+  "suppliers": {
+    "1": {
+      "name": "Carnes del Valle S.A.S.",
+      "country": "Colombia",
+      "categories": [
+        "carne"
+      ],
+      "rate_per_unit": 28500.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "ventas@carnesdelvalle.co",
+      "notes": "Proveedor principal de res y cerdo para Medellín. Entrega martes y viernes.",
+      "id": "70b34a3f-6442-4ed7-86d3-a65602b24d0a",
+      "updated_at": "2026-08-27T00:05:56.265309+00:00"
+    },
+    "2": {
+      "name": "Frigorífico Antioqueño",
+      "country": "Colombia",
+      "categories": [
+        "carne"
+      ],
+      "rate_per_unit": 27900.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "pedidos@frigorificoa.co",
+      "notes": "Proveedor secundario. Usado cuando Carnes del Valle no tiene stock.",
+      "id": "b6582a1c-fdab-4a41-8a64-1f5fd8d6fc74",
+      "updated_at": "2026-08-27T00:05:56.294977+00:00"
+    },
+    "3": {
+      "name": "Verduras La Cosecha",
+      "country": "Colombia",
+      "categories": [
+        "verduras_y_hortalizas"
+      ],
+      "rate_per_unit": 3200.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "lacosecha@gmail.com",
+      "notes": "Mercado mayorista de Medellín. Entrega diaria antes de las 7am.",
+      "id": "e54850b8-a619-4472-b608-7bccc87a0d6e",
+      "updated_at": "2026-08-27T00:05:56.303186+00:00"
+    },
+    "4": {
+      "name": "Condimentos El Sabor",
+      "country": "Colombia",
+      "categories": [
+        "salsas_y_condimentos"
+      ],
+      "rate_per_unit": 12400.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "info@elsabor.co",
+      "notes": null,
+      "id": "e558e911-91c0-4803-83d6-2baa6c48f50b",
+      "updated_at": "2026-08-27T00:05:56.307145+00:00"
+    },
+    "5": {
+      "name": "Distribuidora RefriCol",
+      "country": "Colombia",
+      "categories": [
+        "bebidas",
+        "lacteos"
+      ],
+      "rate_per_unit": 4100.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "refricol.pedidos@gmail.com",
+      "notes": null,
+      "id": "235dad5e-353d-48ac-a40a-cc4d83e7cef5",
+      "updated_at": "2026-08-27T00:05:56.311570+00:00"
+    },
+    "6": {
+      "name": "Empaques y Más",
+      "country": "Colombia",
+      "categories": [
+        "packaging"
+      ],
+      "rate_per_unit": 890.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "ventas@empaquesymas.co",
+      "notes": "Suministra cajas, bolsas y servilletas para todos los locales de Colombia.",
+      "id": "61e8fd5f-e74d-4c1c-9b00-850bb249f68e",
+      "updated_at": "2026-08-27T00:05:56.316174+00:00"
+    },
+    "7": {
+      "name": "Limpiahogar Profesional",
+      "country": "Colombia",
+      "categories": [
+        "productos_limpieza"
+      ],
+      "rate_per_unit": 7600.0,
+      "currency": "COP",
+      "status": "suspended",
+      "contact_email": "limpiahogar@promail.co",
+      "notes": "Suspendido por incumplimiento en entregas. En revisión por Lucía.",
+      "id": "92220c63-d3c6-4561-ae6b-36533cd1f166",
+      "updated_at": "2026-08-27T00:05:56.320766+00:00"
+    },
+    "8": {
+      "name": "CarboCo",
+      "country": "Colombia",
+      "categories": [
+        "carbon_y_combustible"
+      ],
+      "rate_per_unit": 45000.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": "pedidos@carboco.co",
+      "notes": "Único proveedor homologado de carbón para las brasas. Contrato anual.",
+      "id": "c080ede5-372a-4597-9bf7-87522440cf39",
+      "updated_at": "2026-08-27T00:05:56.326517+00:00"
+    },
+    "9": {
+      "name": "Miami Meat Distributors LLC",
+      "country": "USA",
+      "categories": [
+        "carne"
+      ],
+      "rate_per_unit": 6.8,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "orders@miamimeat.com",
+      "notes": "Proveedor principal de carne para los locales de Florida.",
+      "id": "6b71ad65-1677-4ca8-a568-269f0778c482",
+      "updated_at": "2026-08-27T00:05:56.331479+00:00"
+    },
+    "10": {
+      "name": "Sunshine Produce FL",
+      "country": "USA",
+      "categories": [
+        "verduras_y_hortalizas"
+      ],
+      "rate_per_unit": 2.15,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "sales@sunshineproduce.com",
+      "notes": null,
+      "id": "c7e0150e-5d81-4de3-86f6-a28e3e78b42e",
+      "updated_at": "2026-08-27T00:05:56.335745+00:00"
+    },
+    "11": {
+      "name": "Latin Flavors Inc.",
+      "country": "USA",
+      "categories": [
+        "salsas_y_condimentos",
+        "bebidas"
+      ],
+      "rate_per_unit": 4.5,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "orders@latinflavors.com",
+      "notes": "Importa salsas colombianas para el mercado de Florida.",
+      "id": "cda271f1-3dbe-489b-bcd3-6382c5b90622",
+      "updated_at": "2026-08-27T00:05:56.340343+00:00"
+    },
+    "12": {
+      "name": "PackRight USA",
+      "country": "USA",
+      "categories": [
+        "packaging"
+      ],
+      "rate_per_unit": 0.35,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "info@packright.us",
+      "notes": null,
+      "id": "75a9ebab-7573-4290-b7dd-921996120b4e",
+      "updated_at": "2026-08-27T00:05:56.343036+00:00"
+    },
+    "13": {
+      "name": "CleanPro Florida",
+      "country": "USA",
+      "categories": [
+        "productos_limpieza"
+      ],
+      "rate_per_unit": 12.9,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "orders@cleanproflorida.com",
+      "notes": null,
+      "id": "3b075132-ddc1-4271-ac6f-341cab1c4580",
+      "updated_at": "2026-08-27T00:05:56.347327+00:00"
+    },
+    "14": {
+      "name": "GrillFuel Supply Co.",
+      "country": "USA",
+      "categories": [
+        "carbon_y_combustible"
+      ],
+      "rate_per_unit": 38.5,
+      "currency": "USD",
+      "status": "active",
+      "contact_email": "supply@grillfuel.com",
+      "notes": "Proveedor de carbón para Florida. Precio sujeto a revisión trimestral.",
+      "id": "0399c0f4-83b5-4c75-82f5-86e880dc285e",
+      "updated_at": "2026-08-27T00:05:56.351086+00:00"
+    },
+    "15": {
+      "name": "Bebidas Andinas",
+      "country": "Colombia",
+      "categories": [
+        "bebidas"
+      ],
+      "rate_per_unit": 3800.0,
+      "currency": "COP",
+      "status": "suspended",
+      "contact_email": "ventas@bebidasandinas.co",
+      "notes": "Suspendido. Precio por encima del mercado tras última renegociación.",
+      "id": "3aa7b453-0ec8-40f2-88fc-403757a4bfc0",
+      "updated_at": "2026-08-27T00:05:56.355986+00:00"
+    },
+    "16": {
+      "name": "Test Supplier",
+      "country": "Colombia",
+      "categories": [
+        "carne"
+      ],
+      "rate_per_unit": 10000.0,
+      "currency": "COP",
+      "status": "active",
+      "contact_email": null,
+      "notes": null,
+      "id": "9b643c60-6e45-4947-b485-590c63cf6d44",
+      "updated_at": "2026-09-07T21:53:16.598398+00:00"
+    }
+  }
+}

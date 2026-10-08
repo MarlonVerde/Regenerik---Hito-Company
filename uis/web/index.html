@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Backoffice | Incidentes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Ops Console</h1>
+    <div class="topbar-actions">
+      <p id="currentUser" class="current-user"></p>
+      <a href="./account/profile/" class="ghost-link">Mi perfil</a>
+      <button id="logoutBtn" class="btn hidden" type="button">Cerrar sesión</button>
+      <a href="../../index.html" class="ghost-link">Volver al sitio</a>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section id="authPanel" class="panel auth-panel">
+      <h2>Acceso seguro</h2>
+      <p class="muted">Inicia sesión o crea tu cuenta para usar vistas protegidas.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <div class="auth-switch">
+        <button id="showLoginBtn" type="button" class="btn active">Login</button>
+        <button id="showRegisterBtn" type="button" class="btn">Registro</button>
+      </div>
+
+      <section id="loginView" class="auth-view">
+        <form id="loginForm" class="auth-form">
+          <label>Email <input type="email" name="email" required /></label>
+          <label>Contraseña <input type="password" name="password" required /></label>
+          <button type="submit" class="btn primary">Iniciar sesión</button>
+        </form>
+      </section>
+
+      <section id="registerView" class="auth-view hidden">
+        <form id="registerForm" class="auth-form">
+          <label>Email <input type="email" name="email" required /></label>
+          <label>Contraseña <input type="password" name="password" minlength="8" required /></label>
+          <label>Nombre <input type="text" name="name" /></label>
+          <label>Teléfono <input type="text" name="phone" /></label>
+          <label>Dirección <input type="text" name="address" /></label>
+          <button type="submit" class="btn primary">Crear cuenta</button>
+        </form>
+      </section>
+
+      <p id="authMessage" class="status"></p>
+    </section>
+
+    <div id="protectedApp" class="hidden">
+    <section class="panel upload-panel">
+      <h2>Análisis de incidencias</h2>
+      <p class="muted">Sube el CSV mensual y obtén el resumen operativo de inmediato.</p>
+
+      <div id="dropzone" class="dropzone" tabindex="0">
+        <input id="fileInput" type="file" accept=".csv" hidden />
+        <p><strong>Arrastra tu CSV aquí</strong> o haz click para seleccionarlo.</p>
+        <small>Formato esperado: incidents-brasaland.csv</small>
+      </div>
+
+      <div class="actions">
+        <button id="analyzeBtn" class="btn primary" disabled>Analizar archivo</button>
+        <button id="downloadBtn" class="btn" disabled>Descargar CSV</button>
+      </div>
+
+      <p id="fileInfo" class="file-info">Ningún archivo seleccionado.</p>
+      <p id="statusMessage" class="status"></p>
+    </section>
+
+    <section id="results" class="panel results-panel hidden">
+      <h2>Resumen de resultados</h2>
+
+      <div class="kpis" id="kpis"></div>
+
+      <div class="grid-two">
+        <article class="card">
+          <h3>Inválidos por tipo</h3>
+          <ul id="invalidList"></ul>
+        </article>
+
+        <article class="card">
+          <h3>Índice de satisfacción</h3>
+          <div id="satisfaction"></div>
+        </article>
+      </div>
+
+      <div class="grid-two">
+        <article class="card">
+          <h3>Por categoría (válidos)</h3>
+          <table id="categoryTable">
+            <thead>
+              <tr><th>Categoría</th><th>Cantidad</th><th>%</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </article>
+
+        <article class="card">
+          <h3>Por estado (válidos)</h3>
+          <table id="statusTable">
+            <thead>
+              <tr><th>Estado</th><th>Cantidad</th><th>%</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel account-panel">
+      <h2>Gestión de cuenta</h2>
+      <p class="muted">Actualiza tu perfil y datos de contacto.</p>
+      <article class="card">
+        <p><strong>Email:</strong> <span id="profileEmail">-</span></p>
+        <p><strong>Rol:</strong> <span id="profileRole">-</span></p>
+        <form id="profileForm" class="account-form">
+          <label>Nombre <input type="text" name="name" /></label>
+          <label>Teléfono <input type="text" name="phone" /></label>
+          <label>Dirección <input type="text" name="address" /></label>
+          <button type="submit" class="btn primary">Guardar perfil</button>
+        </form>
+      </article>
+      <p id="profileMessage" class="status"></p>
+    </section>
+    </div>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

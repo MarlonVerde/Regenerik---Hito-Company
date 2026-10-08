@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+.venv-*/
+venv/
+
+# Environment
+.env
+.env.local
+
+# Data (runtime)
+results.csv
+services/api/data/incidents.json
+services/api/data/auth.json
+services/api/data/local/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+*.swp
+*.swo
+# Test artifacts
+.coverage
+coverage/
+services/api/.coverage
+node_modules/

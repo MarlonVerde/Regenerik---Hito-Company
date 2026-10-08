@@ -4,5 +4,16 @@ Esta carpeta contiene **todas las interfaces de usuario** relacionadas con la co
 
 Cada subcarpeta dentro de `uis/` debe corresponder a **una interfaz de usuario concreta** (por ejemplo `website`, `backoffice`) e incluir su propia documentación técnica y funcional.
 
-- **Propósito principal**: centralizar en un único lugar todas las aplicaciones frontend que dan soporte a los casos de uso de la compañía.
-- **Recomendación**: documenta en este archivo (o en sub-READMEs) las aplicaciones que vayas añadiendo, su objetivo, tecnología usada y cómo ejecutarlas.
+
+## Interfaces implementadas
+
+### `web`
+
+Interfaz web para análisis de incidencias operativas:
+- Carga de CSV (selector o drag and drop).
+- Envío a `POST /api/incidents/analyze`.
+- Visualización de métricas, desgloses e índice de satisfacción.
+- Descarga de resultados desde `GET /api/incidents/results/export`.
+
+Ubicación:
+- `uis/web/index.html`

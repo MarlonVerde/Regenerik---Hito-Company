@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Web | Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="register">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Web</h1>
+    <a id="toLogin" class="ghost-link" href="../login/">Ir a login</a>
+  </header>
+
+  <main class="layout">
+    <section class="panel auth-panel">
+      <h2>/register</h2>
+      <p class="muted">Crea una cuenta y luego inicia sesión automáticamente.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <form id="registerForm" class="auth-form">
+        <label>
+          Email
+          <input name="email" type="email" required />
+          <small class="status error" data-field-error="email"></small>
+        </label>
+
+        <label>
+          Contraseña
+          <input name="password" type="password" minlength="8" required />
+          <small class="status error" data-field-error="password"></small>
+        </label>
+
+        <label>
+          Nombre
+          <input name="name" type="text" />
+          <small class="status error" data-field-error="name"></small>
+        </label>
+
+        <label>
+          Teléfono
+          <input name="phone" type="text" />
+          <small class="status error" data-field-error="phone"></small>
+        </label>
+
+        <label>
+          Dirección
+          <input name="address" type="text" />
+          <small class="status error" data-field-error="address"></small>
+        </label>
+
+        <button type="submit" class="btn primary">Crear cuenta</button>
+      </form>
+
+      <p id="statusMessage" class="status"></p>
+    </section>
+  </main>
+
+  <script src="../auth-pages.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasaland Web | Restablecer contraseña</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="reset-password">
+  <div class="grain"></div>
+  <header class="topbar">
+    <h1>Brasaland Web</h1>
+    <a id="toLogin" class="ghost-link" href="../login/">Ir a login</a>
+  </header>
+
+  <main class="layout">
+    <section class="panel auth-panel">
+      <h2>/reset-password</h2>
+      <p class="muted">Pega el token recibido y define tu nueva contraseña.</p>
+
+      <label class="api-url">
+        API base URL
+        <input id="apiBaseUrl" type="text" value="http://127.0.0.1:8000" />
+      </label>
+
+      <form id="resetPasswordForm" class="auth-form">
+        <label>
+          Token de recuperación
+          <input name="token" type="text" required />
+          <small class="status error" data-field-error="token"></small>
+        </label>
+
+        <label>
+          Nueva contraseña
+          <input name="new_password" type="password" minlength="8" required />
+          <small class="status error" data-field-error="new_password"></small>
+        </label>
+
+        <label>
+          Confirmar nueva contraseña
+          <input name="confirm_password" type="password" minlength="8" required />
+        </label>
+
+        <button type="submit" class="btn primary">Restablecer contraseña</button>
+      </form>
+
+      <p id="statusMessage" class="status"></p>
+      <p id="backToForgotPassword" class="status hidden"><a class="ghost-link" href="../forgot-password/">Solicitar un nuevo enlace de recuperación</a></p>
+    </section>
+  </main>
+
+  <script src="../auth-pages.js"></script>
+</body>
+</html>

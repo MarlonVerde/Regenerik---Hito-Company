@@ -1,0 +1,24 @@
+{
+  "required_fields": [
+    "incident_id",
+    "created_at",
+    "customer_id",
+    "channel",
+    "category",
+    "status",
+    "description"
+  ],
+  "allowed_values": {
+    "status": [
+      "abierto",
+      "en_proceso",
+      "resuelto",
+      "cerrado"
+    ],
+    "category": [
+      "queja",
+      "solicitud",
+      "fallo_operativo"
+    ]
+  }
+}
