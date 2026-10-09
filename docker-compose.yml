@@ -1,0 +1,44 @@
+services:
+  interfaces:
+    build:
+      context: ./uis
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - ./uis/web:/usr/share/nginx/html/uis/web:ro
+      - ./uis/backoffice:/usr/share/nginx/html/uis/backoffice:ro
+    depends_on:
+      - backend
+    networks:
+      - company_network
+
+  backend:
+    build:
+      context: .
+      dockerfile: services/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Define DATABASE_URL en .env}
+      AUTH_SECRET_KEY: ${AUTH_SECRET_KEY:?Define AUTH_SECRET_KEY en .env}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,http://127.0.0.1:3001}
+      BRASALAND_DATA_DIR: ${BRASALAND_DATA_DIR:-/app/services/api/data/local}
+    volumes:
+      - .:/app
+      - api_data:/app/services/api/data/local
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    networks:
+      - company_network
+
+networks:
+  company_network:
+    name: company_network
+    driver: bridge
+
+volumes:
+  api_data:
