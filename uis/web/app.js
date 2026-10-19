@@ -45,34 +45,11 @@ function setStatus(message, type = '') {
 }
 
 function addRetryButton(parent, callback) {
-  const existingActions = parent.querySelector('.status-actions');
-  if (existingActions) existingActions.remove();
-  const actions = document.createElement('div');
-  actions.className = 'status-actions';
-  actions.style.marginTop = '8px';
-  const retryBtn = document.createElement('button');
-  retryBtn.textContent = 'Reintentar';
-  retryBtn.className = 'btn btn-small';
-  retryBtn.onclick = (e) => {
-    e.preventDefault();
-    callback();
-  };
-  actions.appendChild(retryBtn);
-  parent.appendChild(actions);
+  window.BrasalandStatusActions.render(parent, { label: 'Reintentar', onAction: callback });
 }
 
 function addHomeLink(parent) {
-  const existingActions = parent.querySelector('.status-actions');
-  if (existingActions) existingActions.remove();
-  const actions = document.createElement('div');
-  actions.className = 'status-actions';
-  actions.style.marginTop = '8px';
-  const link = document.createElement('a');
-  link.href = homeRoute();
-  link.textContent = 'Volver al inicio';
-  link.className = 'btn btn-small';
-  actions.appendChild(link);
-  parent.appendChild(actions);
+  window.BrasalandStatusActions.render(parent, { label: 'Volver al inicio', href: homeRoute() });
 }
 
 function setAuthMessage(message, type = '') {

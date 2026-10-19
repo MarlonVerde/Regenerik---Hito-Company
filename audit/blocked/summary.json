@@ -1,0 +1,157 @@
+{
+  "phase": "blocked",
+  "measuredAt": "2026-10-09T22:56:18.694Z",
+  "node": "v24.14.0",
+  "runs": 1,
+  "server": "Python http.server: static files, no dev compilation",
+  "pages": [
+    {
+      "name": "backoffice-dashboard",
+      "device": "mobile",
+      "url": "http://127.0.0.1:8080/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 96,
+            "seo": 90
+          },
+          "lcpMs": 202.67208099365234,
+          "cls": 0.03404296089969299,
+          "fcpMs": 186.17208099365234,
+          "tbtMs": 0,
+          "ttfbMs": 2.137,
+          "bytes": 0,
+          "failedAudits": [
+            {
+              "id": "errors-in-console",
+              "title": "Browser errors were logged to the console"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [
+        "Identifier 'parseApiError' has already been declared"
+      ],
+      "horizontalOverflow": true,
+      "median": {
+        "lcpMs": 202.67208099365234,
+        "cls": 0.03404296089969299,
+        "fcpMs": 186.17208099365234,
+        "tbtMs": 0,
+        "ttfbMs": 2.137,
+        "bytes": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 96,
+          "seo": 90
+        }
+      }
+    },
+    {
+      "name": "backoffice-dashboard",
+      "device": "desktop",
+      "url": "http://127.0.0.1:8080/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 96,
+            "seo": 90
+          },
+          "lcpMs": 60.58347702026367,
+          "cls": 0,
+          "fcpMs": 60.58347702026367,
+          "tbtMs": 0,
+          "ttfbMs": 0.293,
+          "bytes": 0,
+          "failedAudits": [
+            {
+              "id": "errors-in-console",
+              "title": "Browser errors were logged to the console"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [
+        "Identifier 'parseApiError' has already been declared"
+      ],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 60.58347702026367,
+        "cls": 0,
+        "fcpMs": 60.58347702026367,
+        "tbtMs": 0,
+        "ttfbMs": 0.293,
+        "bytes": 0,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 96,
+          "seo": 90
+        }
+      }
+    }
+  ],
+  "lighthouseVersion": "12.8.2",
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36"
+}

@@ -35,6 +35,7 @@
     rateInput.step = '0.01';
     rateInput.value = String(supplier.rate_per_unit);
     rateInput.required = true;
+    rateInput.ariaLabel = `Tarifa de ${supplier.name}`;
     const rateButton = root.document.createElement('button');
     rateButton.className = 'btn';
     rateButton.type = 'submit';

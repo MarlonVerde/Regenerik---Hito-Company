@@ -2,9 +2,18 @@
   "name": "brasaland-frontend-tests",
   "private": true,
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "build:frontends": "tailwindcss -c tailwind.config.js -i uis/web/public.css -o uis/web/public.min.css --minify && node scripts/build-frontend-assets.mjs",
+    "audit:frontends": "node scripts/audit-frontends.mjs",
+    "check:frontends": "node scripts/check-frontends.mjs"
   },
   "devDependencies": {
-    "jest": "^30.0.0"
+    "@fontsource-variable/space-grotesk": "5.3.0",
+    "@fontsource/ibm-plex-mono": "5.3.0",
+    "jest": "^30.0.0",
+    "lighthouse": "12.8.2",
+    "playwright": "1.56.1",
+    "sharp": "0.34.4",
+    "tailwindcss": "3.4.17"
   }
 }

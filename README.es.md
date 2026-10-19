@@ -66,6 +66,19 @@ ai-engineering-company-project-monorepo/
 
 ---
 
+## Entorno local con Docker
+
+Compose ejecuta `uis/web` y `uis/backoffice` en un único contenedor Nginx y la API FastAPI en otro contenedor. Para iniciarlo, crea el archivo raíz `.env` a partir de `.env.example` y configura `AUTH_SECRET_KEY` y `DATABASE_URL` con valores válidos. PostgreSQL no se incluye en Compose; `DATABASE_URL` debe apuntar a una instancia accesible desde el contenedor.
+
+```bash
+docker compose config
+docker compose up --build
+```
+
+Abre `http://localhost:3000` para el sitio, `http://localhost:3001` para el backoffice, `http://localhost:8000/health` para la API y `http://localhost:8000/docs` para Swagger. Los cambios en las interfaces se sirven mediante bind mounts y Uvicorn recarga la API al detectar cambios.
+
+---
+
 ## Hitos (referencia)
 
 | Hito | Enfoque       | Entregables típicos                              |

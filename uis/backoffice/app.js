@@ -36,16 +36,107 @@ const categoryTableBody = document.querySelector('#categoryTable tbody');
 const statusTableBody = document.querySelector('#statusTable tbody');
 const suppliersTableBody = document.querySelector('#suppliersTable tbody');
 const suppliersStatus = document.getElementById('suppliersStatus');
+const suppliersInsights = document.getElementById('suppliersInsights');
 const filterCountry = document.getElementById('filterCountry');
 const filterCategory = document.getElementById('filterCategory');
 const filterStatus = document.getElementById('filterStatus');
 const refreshSuppliersBtn = document.getElementById('refreshSuppliersBtn');
 const supplierForm = document.getElementById('supplierForm');
 
-const { parseApiError, normalizeApiBase, formatFileSize } = window.BackofficeUtils || {};
-const { buildSupplierRow } = window.BackofficeSupplierRenderer || {};
+const {
+  parseApiError,
+  normalizeApiBase,
+  formatFileSize,
+  createMemoizedByDependencies,
+} = window.BackofficeUtils || {};
 
 let selectedFile = null;
+let supplierRendererPromise = null;
+let summaryRendererPromise = null;
+
+const memoizedSupplierInsights = createMemoizedByDependencies(computeSupplierInsights);
+
+function loadSupplierRenderer() {
+  if (window.BackofficeSupplierRenderer?.buildSupplierRow) {
+    return Promise.resolve(window.BackofficeSupplierRenderer.buildSupplierRow);
+  }
+  if (!supplierRendererPromise) {
+    supplierRendererPromise = import('./supplier-renderer.js').then(() => window.BackofficeSupplierRenderer.buildSupplierRow);
+  }
+  return supplierRendererPromise;
+}
+
+function loadSummaryRenderer() {
+  if (!summaryRendererPromise) {
+    summaryRendererPromise = import('./summary-renderer.js');
+  }
+  return summaryRendererPromise;
+}
+
+function computeSupplierInsights(items) {
+  const summaryByCountry = items.reduce((accumulator, supplier) => {
+    const country = supplier.country || 'N/D';
+    const status = supplier.status || 'unknown';
+    if (!accumulator[country]) {
+      accumulator[country] = { total: 0, active: 0, suspended: 0 };
+    }
+    accumulator[country].total += 1;
+    if (status === 'active') {
+      accumulator[country].active += 1;
+    }
+    if (status === 'suspended') {
+      accumulator[country].suspended += 1;
+    }
+    return accumulator;
+  }, {});
+
+  const categoryCount = items.reduce((accumulator, supplier) => {
+    (supplier.categories || []).forEach((category) => {
+      accumulator[category] = (accumulator[category] || 0) + 1;
+    });
+    return accumulator;
+  }, {});
+
+  const categories = Object.entries(categoryCount)
+    .sort((first, second) => second[1] - first[1])
+    .slice(0, 5);
+
+  return { summaryByCountry, categories };
+}
+
+function renderSupplierInsights(items) {
+  if (!suppliersInsights) {
+    return;
+  }
+
+  const dependencyToken = items
+    .map((supplier) => `${supplier.id}:${supplier.status}:${supplier.country}:${supplier.rate_per_unit}`)
+    .sort()
+    .join('|');
+
+  const insights = memoizedSupplierInsights([dependencyToken], items);
+  const countryRows = Object.entries(insights.summaryByCountry)
+    .map(
+      ([country, values]) =>
+        `<li><strong>${country}</strong>: ${values.total} total, ${values.active} activos, ${values.suspended} suspendidos</li>`
+    )
+    .join('');
+
+  const categoryRows = insights.categories
+    .map(([category, count]) => `<li><strong>${category}</strong>: ${count}</li>`)
+    .join('');
+
+  suppliersInsights.innerHTML = `
+    <article class="card">
+      <h3>Distribucion por pais</h3>
+      <ul>${countryRows || '<li>Sin datos</li>'}</ul>
+    </article>
+    <article class="card">
+      <h3>Top categorias</h3>
+      <ul>${categoryRows || '<li>Sin datos</li>'}</ul>
+    </article>
+  `;
+}
 
 function setStatus(message, type = '') {
   statusMessage.textContent = message;
@@ -56,34 +147,11 @@ function setStatus(message, type = '') {
 }
 
 function addRetryButton(parent, callback) {
-  const existingActions = parent.querySelector('.status-actions');
-  if (existingActions) existingActions.remove();
-  const actions = document.createElement('div');
-  actions.className = 'status-actions';
-  actions.style.marginTop = '8px';
-  const retryBtn = document.createElement('button');
-  retryBtn.textContent = 'Reintentar';
-  retryBtn.className = 'btn btn-small';
-  retryBtn.onclick = (e) => {
-    e.preventDefault();
-    callback();
-  };
-  actions.appendChild(retryBtn);
-  parent.appendChild(actions);
+  window.BrasalandStatusActions.render(parent, { label: 'Reintentar', onAction: callback });
 }
 
 function addHomeLink(parent) {
-  const existingActions = parent.querySelector('.status-actions');
-  if (existingActions) existingActions.remove();
-  const actions = document.createElement('div');
-  actions.className = 'status-actions';
-  actions.style.marginTop = '8px';
-  const link = document.createElement('a');
-  link.href = homeRoute();
-  link.textContent = 'Volver al inicio';
-  link.className = 'btn btn-small';
-  actions.appendChild(link);
-  parent.appendChild(actions);
+  window.BrasalandStatusActions.render(parent, { label: 'Volver al inicio', href: homeRoute() });
 }
 
 function setAuthMessage(message, type = '') {
@@ -172,6 +240,7 @@ function showAuthPanel(mode = 'login') {
   protectedApp.classList.add('hidden');
   authPanel.classList.remove('hidden');
   showAuthView(mode);
+  document.querySelector('main').setAttribute('aria-busy', 'false');
 }
 
 function showProtectedApp() {
@@ -245,26 +314,6 @@ function fillProfileForm(profile) {
   profileForm.elements.name.value = profile?.name || '';
   profileForm.elements.phone.value = profile?.phone || '';
   profileForm.elements.address.value = profile?.address || '';
-}
-
-async function loadProfile() {
-  try {
-    const profile = await apiFetch('/profiles/me');
-    fillProfileForm(profile);
-    setProfileMessage('Perfil cargado.', 'ok');
-  } catch (error) {
-    if (error.message.includes('404')) {
-      fillProfileForm(null);
-      setProfileMessage('Aún no tienes perfil. Completa tus datos y guarda.', 'warn');
-      return;
-    }
-    if (error.message === 'Perfil no encontrado') {
-      fillProfileForm(null);
-      setProfileMessage('Aún no tienes perfil. Completa tus datos y guarda.', 'warn');
-      return;
-    }
-    setProfileMessage('No se pudo cargar el perfil. Intenta recargar la página.', 'error');
-  }
 }
 
 async function saveProfile(event) {
@@ -367,9 +416,11 @@ async function initializeAuthenticatedSession() {
     updateSessionUi(me);
     profileEmail.textContent = me.email;
     profileRole.textContent = me.role;
+    fillProfileForm(me.profile);
+    setProfileMessage(me.profile ? 'Perfil cargado.' : 'Aún no tienes perfil. Completa tus datos y guarda.', me.profile ? 'ok' : 'warn');
     showProtectedApp();
-    await loadProfile();
     await fetchSuppliers();
+    document.querySelector('main').setAttribute('aria-busy', 'false');
   } catch (error) {
     clearToken();
     clearSessionUi();
@@ -395,7 +446,7 @@ async function analyzeFile() {
       method: 'POST',
       body: formData,
     });
-    renderSummary(summary);
+    await renderSummary(summary);
 
     downloadBtn.disabled = false;
     setStatus('Análisis completado correctamente.', 'ok');
@@ -407,7 +458,7 @@ async function analyzeFile() {
   }
 }
 
-function renderSummary(summary) {
+async function renderSummary(summary) {
   if (!summary || !summary.totals || !summary.invalid_breakdown || !summary.satisfaction_index) {
     resultsSection.classList.remove('hidden');
     kpis.innerHTML = '<p class="error-placeholder">No se pudieron cargar los resultados del análisis.</p>';
@@ -415,61 +466,26 @@ function renderSummary(summary) {
     return;
   }
 
-  const totals = summary.totals || {};
-  const invalid = summary.invalid_breakdown || {};
-  const sat = summary.satisfaction_index || {};
+  const summaryRenderer = await loadSummaryRenderer();
+  const viewModel = summaryRenderer.buildSummaryViewModel(summary);
 
   resultsSection.classList.remove('hidden');
 
   kpis.innerHTML = '';
-  const cards = [
-    ['Total', totals.total_records ?? '—'],
-    ['Válidos', totals.valid_records ?? '—'],
-    ['Inválidos', totals.invalid_records ?? '—'],
-    ['Promedio satisfacción', sat.average_score != null ? Number(sat.average_score).toFixed(2) : '—'],
-  ];
-  cards.forEach(([label, value]) => {
+  viewModel.cards.forEach(([label, value]) => {
     const article = document.createElement('article');
     article.className = 'kpi';
     article.innerHTML = `<p class="label">${label}</p><p class="value">${value}</p>`;
     kpis.appendChild(article);
   });
 
-  invalidList.innerHTML = `
-    <li>Falta location_id: <strong>${invalid.missing_location_id ?? 0}</strong></li>
-    <li>Category faltante/inválida: <strong>${invalid.invalid_or_missing_category ?? 0}</strong></li>
-    <li>Description vacía/corta: <strong>${invalid.empty_description ?? 0}</strong></li>
-    <li>CLOSED sin satisfaction_score: <strong>${invalid.closed_without_score ?? 0}</strong></li>
-  `;
+  invalidList.innerHTML = viewModel.invalidHtml;
+  satisfaction.innerHTML = viewModel.satisfactionHtml;
+  categoryTableBody.innerHTML = viewModel.categoryRowsHtml;
+  statusTableBody.innerHTML = viewModel.statusRowsHtml;
 
-  satisfaction.innerHTML = `
-    <p>Scored cases: <strong>${sat.scored_cases ?? 0}</strong> de <strong>${sat.closed_cases ?? 0}</strong></p>
-    <p>Average score: <strong>${sat.average_score != null ? Number(sat.average_score).toFixed(2) : '—'} / 5.00</strong></p>
-    <ul>
-      ${(sat.distribution || []).map((item) => `<li>Score ${item.score} (${item.label || '—'}): <strong>${item.count ?? 0}</strong></li>`).join('')}
-    </ul>
-  `;
-
-  categoryTableBody.innerHTML = (summary.breakdown_by_category || [])
-    .map(
-      (item) => `<tr><td>${item.category || '—'}</td><td>${item.count ?? 0}</td><td>${item.percentage != null ? Number(item.percentage).toFixed(1) : '—'}%</td></tr>`
-    )
-    .join('');
-
-  statusTableBody.innerHTML = (summary.breakdown_by_status || [])
-    .map(
-      (item) => `<tr><td>${item.status || '—'}</td><td>${item.count ?? 0}</td><td>${item.percentage != null ? Number(item.percentage).toFixed(1) : '—'}%</td></tr>`
-    )
-    .join('');
-
-  const totalInvalid =
-    (invalid.missing_location_id || 0) +
-    (invalid.invalid_or_missing_category || 0) +
-    (invalid.empty_description || 0) +
-    (invalid.closed_without_score || 0);
-
-  if (totalInvalid > 0) {
-    setStatus(`Atención: se detectaron ${totals.invalid_records ?? 'varios'} registros inválidos.`, 'warn');
+  if (viewModel.totalInvalid > 0) {
+    setStatus(`Atención: se detectaron ${viewModel.totalInvalidRecords ?? 'varios'} registros inválidos.`, 'warn');
   }
 }
 
@@ -512,15 +528,17 @@ function buildSupplierQuery() {
   return query ? `?${query}` : '';
 }
 
-function renderSuppliers(items) {
+async function renderSuppliers(items) {
+  const buildSupplierRow = await loadSupplierRenderer();
   suppliersTableBody.replaceChildren(...items.map((supplier) => buildSupplierRow(supplier)));
+  renderSupplierInsights(items);
 }
 
 async function fetchSuppliers() {
   setSuppliersStatus('Cargando proveedores...', 'warn');
   try {
     const payload = await apiFetch(`/suppliers${buildSupplierQuery()}`);
-    renderSuppliers(payload.items || []);
+    await renderSuppliers(payload.items || []);
     setSuppliersStatus(`Listado actualizado. Registros: ${payload.total}.`, 'ok');
   } catch (error) {
     setSuppliersStatus(`Error: ${error.message}`, 'error');

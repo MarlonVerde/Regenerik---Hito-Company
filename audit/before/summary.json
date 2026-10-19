@@ -1,0 +1,2010 @@
+{
+  "phase": "before",
+  "measuredAt": "2026-10-09T23:06:50.951Z",
+  "node": "v24.14.0",
+  "runs": 3,
+  "server": "Python http.server: static files, no dev compilation",
+  "pages": [
+    {
+      "name": "website-home",
+      "device": "mobile",
+      "url": "http://127.0.0.1:8080/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 72,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 16354.1234,
+          "cls": 0,
+          "fcpMs": 2198.3837,
+          "tbtMs": 0,
+          "ttfbMs": 2.065,
+          "bytes": 3098448,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "16.4 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.7 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "16.4 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "16,350 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,460 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,718 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,879 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,470 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 72,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 16357.4912,
+          "cls": 0,
+          "fcpMs": 2198.1751,
+          "tbtMs": 0,
+          "ttfbMs": 1.073,
+          "bytes": 3098448,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "16.4 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.7 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "16.4 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "16,360 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,460 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,718 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,879 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,480 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 73,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 16355.701800000024,
+          "cls": 0,
+          "fcpMs": 2181.7762,
+          "tbtMs": 0,
+          "ttfbMs": 1.6640000000000001,
+          "bytes": 3098456,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "16.4 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.2 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "16.4 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "16,360 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,480 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,718 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,879 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,500 ms"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 16355.701800000024,
+        "cls": 0,
+        "fcpMs": 2198.1751,
+        "tbtMs": 0,
+        "ttfbMs": 1.6640000000000001,
+        "bytes": 3098448,
+        "scores": {
+          "performance": 72,
+          "accessibility": 92,
+          "best-practices": 100,
+          "seo": 91
+        }
+      },
+      "reportScreenshot": {
+        "file": "website-home-mobile-lighthouse.png",
+        "source": "website-home-mobile-1.html",
+        "run": 1
+      }
+    },
+    {
+      "name": "website-home",
+      "device": "desktop",
+      "url": "http://127.0.0.1:8080/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 85,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 2716.277099999998,
+          "cls": 0,
+          "fcpMs": 528.62865,
+          "tbtMs": 0,
+          "ttfbMs": 0.16999999999999993,
+          "bytes": 3098461,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.7 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "110 ms"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.7 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "2,720 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 330 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,532 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,863 KiB"
+            },
+            {
+              "id": "lcp-discovery-insight",
+              "title": "LCP request discovery"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 340 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 85,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 2723.9372000000003,
+          "cls": 0,
+          "fcpMs": 511.54019999999997,
+          "tbtMs": 0,
+          "ttfbMs": 0.893,
+          "bytes": 3098457,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.7 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "120 ms"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.7 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "2,720 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 330 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,532 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,863 KiB"
+            },
+            {
+              "id": "lcp-discovery-insight",
+              "title": "LCP request discovery"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 340 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 85,
+            "accessibility": 92,
+            "best-practices": 100,
+            "seo": 91
+          },
+          "lcpMs": 2729.973600000001,
+          "cls": 0,
+          "fcpMs": 527.6386500000001,
+          "tbtMs": 0,
+          "ttfbMs": 0.4870000000000001,
+          "bytes": 3098459,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.7 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "110 ms"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.7 s"
+            },
+            {
+              "id": "largest-contentful-paint-element",
+              "title": "Largest Contentful Paint element",
+              "value": "2,730 ms"
+            },
+            {
+              "id": "unsized-images",
+              "title": "Image elements do not have explicit `width` and `height`"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "total-byte-weight",
+              "title": "Avoid enormous network payloads",
+              "value": "Total size was 3,026 KiB"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 330 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "modern-image-formats",
+              "title": "Serve images in next-gen formats",
+              "value": "Est savings of 2,639 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 2,532 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 2,895 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 2,863 KiB"
+            },
+            {
+              "id": "lcp-discovery-insight",
+              "title": "LCP request discovery"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 350 ms"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 2723.9372000000003,
+        "cls": 0,
+        "fcpMs": 527.6386500000001,
+        "tbtMs": 0,
+        "ttfbMs": 0.4870000000000001,
+        "bytes": 3098459,
+        "scores": {
+          "performance": 85,
+          "accessibility": 92,
+          "best-practices": 100,
+          "seo": 91
+        }
+      },
+      "reportScreenshot": {
+        "file": "website-home-desktop-lighthouse.png",
+        "source": "website-home-desktop-1.html",
+        "run": 1
+      }
+    },
+    {
+      "name": "website-registration",
+      "device": "mobile",
+      "url": "http://127.0.0.1:8080/application.html",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 96,
+            "accessibility": 77,
+            "best-practices": 93,
+            "seo": 90
+          },
+          "lcpMs": 2176.79125,
+          "cls": 0,
+          "fcpMs": 2176.79125,
+          "tbtMs": 0,
+          "ttfbMs": 0.5960000000000001,
+          "bytes": 134613,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.2 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.2 s"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,490 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "font-size",
+              "title": "Document doesn't use legible font sizes"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,510 ms"
+            },
+            {
+              "id": "viewport-insight",
+              "title": "Optimize viewport for mobile"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 96,
+            "accessibility": 77,
+            "best-practices": 93,
+            "seo": 90
+          },
+          "lcpMs": 2206.0483750000003,
+          "cls": 0,
+          "fcpMs": 2206.0483750000003,
+          "tbtMs": 0,
+          "ttfbMs": 0.7249999999999999,
+          "bytes": 134630,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.2 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.2 s"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,490 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "font-size",
+              "title": "Document doesn't use legible font sizes"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,510 ms"
+            },
+            {
+              "id": "viewport-insight",
+              "title": "Optimize viewport for mobile"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 96,
+            "accessibility": 77,
+            "best-practices": 93,
+            "seo": 90
+          },
+          "lcpMs": 2175.4663499999997,
+          "cls": 0,
+          "fcpMs": 2175.4663499999997,
+          "tbtMs": 0,
+          "ttfbMs": 1.121,
+          "bytes": 134626,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.2 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.2 s"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.2 s"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,480 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "font-size",
+              "title": "Document doesn't use legible font sizes"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,490 ms"
+            },
+            {
+              "id": "viewport-insight",
+              "title": "Optimize viewport for mobile"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 2176.79125,
+        "cls": 0,
+        "fcpMs": 2176.79125,
+        "tbtMs": 0,
+        "ttfbMs": 0.7249999999999999,
+        "bytes": 134626,
+        "scores": {
+          "performance": 96,
+          "accessibility": 77,
+          "best-practices": 93,
+          "seo": 90
+        }
+      },
+      "reportScreenshot": {
+        "file": "website-registration-mobile-lighthouse.png",
+        "source": "website-registration-mobile-1.html",
+        "run": 1
+      }
+    },
+    {
+      "name": "website-registration",
+      "device": "desktop",
+      "url": "http://127.0.0.1:8080/application.html",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 77,
+            "best-practices": 96,
+            "seo": 90
+          },
+          "lcpMs": 545.1663,
+          "cls": 0,
+          "fcpMs": 541.6663,
+          "tbtMs": 0,
+          "ttfbMs": 1.115,
+          "bytes": 134624,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "0.5 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "150 ms"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 340 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 340 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 77,
+            "best-practices": 96,
+            "seo": 90
+          },
+          "lcpMs": 513.6526,
+          "cls": 0,
+          "fcpMs": 513.6526,
+          "tbtMs": 0,
+          "ttfbMs": 3.6719999999999997,
+          "bytes": 134613,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "110 ms"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 330 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 340 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 77,
+            "best-practices": 96,
+            "seo": 90
+          },
+          "lcpMs": 515.6741499999999,
+          "cls": 0,
+          "fcpMs": 515.6741499999999,
+          "tbtMs": 0,
+          "ttfbMs": 1.8619999999999999,
+          "bytes": 134624,
+          "failedAudits": [
+            {
+              "id": "viewport",
+              "title": "Does not have a `<meta name=\"viewport\">` tag with `width` or `initial-scale`"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "100 ms"
+            },
+            {
+              "id": "color-contrast",
+              "title": "Background and foreground colors do not have a sufficient contrast ratio."
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "select-name",
+              "title": "Select elements do not have associated label elements."
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "1 resource found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 330 ms"
+            },
+            {
+              "id": "unused-javascript",
+              "title": "Reduce unused JavaScript",
+              "value": "Est savings of 44 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 4 KiB"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 2 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 340 ms"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 515.6741499999999,
+        "cls": 0,
+        "fcpMs": 515.6741499999999,
+        "tbtMs": 0,
+        "ttfbMs": 1.8619999999999999,
+        "bytes": 134624,
+        "scores": {
+          "performance": 100,
+          "accessibility": 77,
+          "best-practices": 96,
+          "seo": 90
+        }
+      },
+      "reportScreenshot": {
+        "file": "website-registration-desktop-lighthouse.png",
+        "source": "website-registration-desktop-1.html",
+        "run": 1
+      }
+    },
+    {
+      "name": "backoffice-dashboard",
+      "device": "mobile",
+      "url": "http://127.0.0.1:8080/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 79,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 2461.0395500000004,
+          "cls": 0.3065221622407093,
+          "fcpMs": 2310.9167500000003,
+          "tbtMs": 0,
+          "ttfbMs": 0.8070000000000004,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.3 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.5 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.3 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.307"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.5 s"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "1 layout shift found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,540 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,540 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 72,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 2454.32485,
+          "cls": 0.637121466130143,
+          "fcpMs": 2304.27315,
+          "tbtMs": 0,
+          "ttfbMs": 1.358,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.3 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.5 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.3 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.637"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.5 s"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "2 layout shifts found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,570 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,570 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 79,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 2456.94855,
+          "cls": 0.3065221622407093,
+          "fcpMs": 2306.253,
+          "tbtMs": 0,
+          "ttfbMs": 0.589,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "2.3 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "2.5 s"
+            },
+            {
+              "id": "speed-index",
+              "title": "Speed Index",
+              "value": "2.3 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.307"
+            },
+            {
+              "id": "interactive",
+              "title": "Time to Interactive",
+              "value": "2.5 s"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "1 layout shift found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 1,560 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 1,560 ms"
+            }
+          ]
+        }
+      ],
+      "supplierRows": 15,
+      "sessionRequests": [
+        {
+          "path": "/auth/me",
+          "start": 178.90000000037253,
+          "duration": 33
+        },
+        {
+          "path": "/profiles/me",
+          "start": 233,
+          "duration": 36.59999999962747
+        },
+        {
+          "path": "/suppliers",
+          "start": 274.79999999981374,
+          "duration": 27.700000000186265
+        }
+      ],
+      "suppliersReadyMs": 302.5,
+      "browserErrors": [],
+      "horizontalOverflow": true,
+      "median": {
+        "lcpMs": 2456.94855,
+        "cls": 0.3065221622407093,
+        "fcpMs": 2306.253,
+        "tbtMs": 0,
+        "ttfbMs": 0.8070000000000004,
+        "bytes": 83522,
+        "scores": {
+          "performance": 79,
+          "accessibility": 93,
+          "best-practices": 100,
+          "seo": 90
+        }
+      },
+      "reportScreenshot": {
+        "file": "backoffice-dashboard-mobile-lighthouse.png",
+        "source": "backoffice-dashboard-mobile-1.html",
+        "run": 1
+      }
+    },
+    {
+      "name": "backoffice-dashboard",
+      "device": "desktop",
+      "url": "http://127.0.0.1:8080/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 79,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 676.0943000000001,
+          "cls": 0.47545069059623357,
+          "fcpMs": 676.0943000000001,
+          "tbtMs": 0,
+          "ttfbMs": 1.6300000000000003,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.475"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "2 layout shifts found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 480 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 480 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 86,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 721.19975,
+          "cls": 0.2563113169409622,
+          "fcpMs": 721.19975,
+          "tbtMs": 0,
+          "ttfbMs": 1.713,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.256"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "1 layout shift found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 480 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 480 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 87,
+            "accessibility": 93,
+            "best-practices": 100,
+            "seo": 90
+          },
+          "lcpMs": 655.7966,
+          "cls": 0.2563113169409622,
+          "fcpMs": 655.7966,
+          "tbtMs": 0,
+          "ttfbMs": 1.306,
+          "bytes": 83522,
+          "failedAudits": [
+            {
+              "id": "first-contentful-paint",
+              "title": "First Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "0.7 s"
+            },
+            {
+              "id": "cumulative-layout-shift",
+              "title": "Cumulative Layout Shift",
+              "value": "0.256"
+            },
+            {
+              "id": "layout-shifts",
+              "title": "Avoid large layout shifts",
+              "value": "1 layout shift found"
+            },
+            {
+              "id": "label",
+              "title": "Form elements do not have associated labels"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "4 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 450 ms"
+            },
+            {
+              "id": "unminified-javascript",
+              "title": "Minify JavaScript",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 34 KiB"
+            },
+            {
+              "id": "cls-culprits-insight",
+              "title": "Layout shift culprits"
+            },
+            {
+              "id": "document-latency-insight",
+              "title": "Document request latency",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 450 ms"
+            }
+          ]
+        }
+      ],
+      "supplierRows": 15,
+      "sessionRequests": [
+        {
+          "path": "/auth/me",
+          "start": 123.59999999962747,
+          "duration": 19.5
+        },
+        {
+          "path": "/profiles/me",
+          "start": 164.09999999962747,
+          "duration": 20.300000000745058
+        },
+        {
+          "path": "/suppliers",
+          "start": 191.29999999981374,
+          "duration": 25
+        }
+      ],
+      "suppliersReadyMs": 216.29999999981374,
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 676.0943000000001,
+        "cls": 0.2563113169409622,
+        "fcpMs": 676.0943000000001,
+        "tbtMs": 0,
+        "ttfbMs": 1.6300000000000003,
+        "bytes": 83522,
+        "scores": {
+          "performance": 86,
+          "accessibility": 93,
+          "best-practices": 100,
+          "seo": 90
+        }
+      },
+      "reportScreenshot": {
+        "file": "backoffice-dashboard-desktop-lighthouse.png",
+        "source": "backoffice-dashboard-desktop-2.html",
+        "run": 2
+      }
+    }
+  ],
+  "lighthouseVersion": "12.8.2",
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36"
+}

@@ -50,5 +50,6 @@ describe('supplier renderer', () => {
     expect(row.children[0].textContent).toBe(payload);
     expect(row.children.some((child) => child.tagName === 'script')).toBe(false);
     expect(row.children[0].children).toHaveLength(0);
+    expect(row.children[6].children[0].children[0].children[0].ariaLabel).toBe(`Tarifa de ${payload}`);
   });
 });

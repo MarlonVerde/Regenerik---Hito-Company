@@ -2,8 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Regístrate en Brasa Points para acumular puntos en Brasaland y disfrutar de descuentos y beneficios en nuestras 14 ubicaciones.">
   <title>Registro Brasaland</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="uis/web/public.min.css">
 </head>
 
 <body class="bg-gray-100">
@@ -30,31 +32,31 @@
 
 <form id="form" class="space-y-4">
 
-<input id="name" placeholder="Nombre completo" class="w-full border p-2">
+<input id="name" aria-label="Nombre completo" autocomplete="name" placeholder="Nombre completo" class="w-full border p-2">
 <p id="error-name" class="text-red-500"></p>
 
-<input id="email" placeholder="Email" class="w-full border p-2">
+<input id="email" aria-label="Email" autocomplete="email" placeholder="Email" class="w-full border p-2">
 <p id="error-email" class="text-red-500"></p>
 
-<input id="phone" placeholder="+57 o +1" class="w-full border p-2">
+<input id="phone" aria-label="Teléfono" autocomplete="tel" placeholder="+57 o +1" class="w-full border p-2">
 <p id="error-phone" class="text-red-500"></p>
 
-<select id="country" class="w-full border p-2">
+<select id="country" aria-label="País" class="w-full border p-2">
   <option value="">País</option>
 </select>
 <p id="error-country" class="text-red-500"></p>
 
-<select id="city" class="w-full border p-2">
+<select id="city" aria-label="Ciudad" class="w-full border p-2">
   <option value="">Ciudad</option>
 </select>
 <p id="error-city" class="text-red-500"></p>
 
-<select id="location" class="w-full border p-2">
+<select id="location" aria-label="Ubicación" class="w-full border p-2">
   <option value="">Ubicación</option>
 </select>
 <p id="error-location" class="text-red-500"></p>
 
-<select id="dietary-preferences" class="w-full border p-2">
+<select id="dietary-preferences" aria-label="Preferencias alimenticias" class="w-full border p-2">
   <option value="">Preferencias Alimenticias</option>
   <option value="Frutas y verduras (como base)">Frutas y verduras (como base)</option>
   <option value="Legumbres (porotos, lentejas, garbanzos)">Legumbres (porotos, lentejas, garbanzos)</option>
@@ -62,10 +64,10 @@
   <option value="Alimentos ricos en fibra y granos integrales">Alimentos ricos en fibra y granos integrales</option>
 </select>
 
-<input id="birthdate" type="date" class="w-full border p-2">
+<input id="birthdate" type="date" aria-label="Fecha de nacimiento" autocomplete="bday" class="w-full border p-2">
 <p id="error-birthdate" class="text-red-500"></p>
 
-<select id="source" class="w-full border p-2">
+<select id="source" aria-label="Cómo nos conociste" class="w-full border p-2">
   <option value="">¿Cómo nos conociste?</option>
   <option>Instagram</option>
   <option>Facebook</option>
@@ -86,7 +88,7 @@
 
 </main>
 
-<script src="validation.js"></script>
+<script src="validation.js" defer></script>
 
 </body>
 </html>
