@@ -3,9 +3,10 @@ from __future__ import annotations
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
+from fastapi import Depends, FastAPI, File, HTTPException, Request, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from sqlalchemy import text
@@ -36,6 +37,7 @@ from routes.users import router as users_router  # noqa: E402
 from models import HealthResponse, IncidentAnalysisSummaryResponse  # noqa: E402
 
 logger = logging.getLogger(__name__)
+timing_logger = logging.getLogger("api.timing")
 app = FastAPI(title="Brasaland Operations API", version="1.0.0")
 
 DEFAULT_CORS_ORIGINS = (
@@ -57,6 +59,21 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type"],
 )
+
+
+@app.middleware("http")
+async def timing_middleware(request: Request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = (time.perf_counter() - start) * 1000
+    timing_logger.info(
+        "%s %s -> %s | %.1fms",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+    )
+    return response
 
 LATEST_SUMMARY: dict | None = None
 LATEST_RESULTS_CSV: str | None = None

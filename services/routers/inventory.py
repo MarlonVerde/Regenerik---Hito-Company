@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlmodel import Session, func, select
 
+from cache import TTLMemoryCache
 from database import get_db
 from services.models import Ingredient, IngredientEntry, IngredientExit
 from schemas import (
@@ -23,6 +24,21 @@ router = APIRouter(
     tags=["inventory"],
     dependencies=[Depends(get_current_user)],
 )
+
+INVENTORY_PRODUCTS_TTL_SECONDS = 20
+INVENTORY_ORDERS_TTL_SECONDS = 15
+products_cache = TTLMemoryCache(ttl_seconds=INVENTORY_PRODUCTS_TTL_SECONDS)
+product_detail_cache = TTLMemoryCache(ttl_seconds=INVENTORY_PRODUCTS_TTL_SECONDS)
+orders_cache = TTLMemoryCache(ttl_seconds=INVENTORY_ORDERS_TTL_SECONDS)
+
+
+def invalidate_inventory_caches(product_id: int | None = None) -> None:
+    products_cache.invalidate_all()
+    orders_cache.invalidate_all()
+    if product_id is None:
+        product_detail_cache.invalidate_all()
+    else:
+        product_detail_cache.invalidate(product_id)
 
 
 def calculate_stock(
@@ -66,27 +82,30 @@ def commit_or_conflict(db: Session, detail: str) -> None:
 
 @router.get("/products", response_model=list[IngredientResponse])
 def get_products(db: Session = Depends(get_db)) -> list[IngredientResponse]:
-    products = db.exec(select(Ingredient)).all()
-    response = []
+    def build_products_response() -> list[IngredientResponse]:
+        products = db.exec(select(Ingredient)).all()
+        response = []
 
-    for product in products:
-        if product.id is None:
-            continue
+        for product in products:
+            if product.id is None:
+                continue
 
-        current_stock = calculate_stock(db, product.id)
-        response.append(
-            IngredientResponse(
-                id=product.id,
-                name=product.name,
-                sku=product.sku,
-                unit=product.unit,
-                category=product.category,
-                country=product.country,
-                current_stock=current_stock,
+            current_stock = calculate_stock(db, product.id)
+            response.append(
+                IngredientResponse(
+                    id=product.id,
+                    name=product.name,
+                    sku=product.sku,
+                    unit=product.unit,
+                    category=product.category,
+                    country=product.country,
+                    current_stock=current_stock,
+                )
             )
-        )
 
-    return response
+        return response
+
+    return products_cache.get_or_set("inventory.products", build_products_response)
 
 
 @router.post("/products", response_model=IngredientResponse)
@@ -102,6 +121,8 @@ def create_product(
     if product.id is None:
         raise HTTPException(status_code=500, detail="Could not create product")
 
+    invalidate_inventory_caches(product.id)
+
     return IngredientResponse(
         id=product.id,
         **payload.model_dump(),
@@ -111,21 +132,24 @@ def create_product(
 
 @router.get("/products/{product_id}", response_model=IngredientResponse)
 def get_product_detail(product_id: int, db: Session = Depends(get_db)) -> IngredientResponse:
-    product = get_product(db, product_id)
+    def build_product_detail() -> IngredientResponse:
+        product = get_product(db, product_id)
 
-    if product.id is None:
-        raise HTTPException(status_code=500, detail="Product has no identifier")
+        if product.id is None:
+            raise HTTPException(status_code=500, detail="Product has no identifier")
 
-    current_stock = calculate_stock(db, product.id)
-    return IngredientResponse(
-        id=product.id,
-        name=product.name,
-        sku=product.sku,
-        unit=product.unit,
-        category=product.category,
-        country=product.country,
-        current_stock=current_stock,
-    )
+        current_stock = calculate_stock(db, product.id)
+        return IngredientResponse(
+            id=product.id,
+            name=product.name,
+            sku=product.sku,
+            unit=product.unit,
+            category=product.category,
+            country=product.country,
+            current_stock=current_stock,
+        )
+
+    return product_detail_cache.get_or_set(product_id, build_product_detail)
 
 
 @router.post("/orders/inbound", response_model=IngredientEntryResponse)
@@ -144,6 +168,7 @@ def create_inbound_order(
     db.add(order)
     commit_or_conflict(db, "Unable to save inbound inventory order")
     db.refresh(order)
+    invalidate_inventory_caches(payload.ingredient_id)
     return IngredientEntryResponse.model_validate(order)
 
 
@@ -176,65 +201,69 @@ def create_outbound_order(
     db.add(order)
     commit_or_conflict(db, "Unable to save outbound inventory order")
     db.refresh(order)
+    invalidate_inventory_caches(payload.ingredient_id)
     return IngredientExitResponse.model_validate(order)
 
 
 @router.get("/orders", response_model=list[OrderResponse])
 def get_orders(db: Session = Depends(get_db)) -> list[OrderResponse]:
-    entry_statement = (
-        select(IngredientEntry, Ingredient)
-        .join(Ingredient, IngredientEntry.ingredient_id == Ingredient.id)
-    )
-    exit_statement = (
-        select(IngredientExit, Ingredient)
-        .join(Ingredient, IngredientExit.ingredient_id == Ingredient.id)
-    )
-
-    entries = db.exec(entry_statement).all()
-    exits = db.exec(exit_statement).all()
-    movements: list[OrderResponse] = []
-
-    for entry, ingredient in entries:
-        if entry.id is None or ingredient.id is None:
-            continue
-        movements.append(
-            OrderResponse(
-                id=entry.id,
-                movement_type="inbound",
-                quantity=entry.quantity,
-                created_at=entry.created_at,
-                user_uuid=entry.user_uuid,
-                ingredient=IngredientOrderItem(
-                    id=ingredient.id,
-                    name=ingredient.name,
-                    sku=ingredient.sku,
-                    unit=ingredient.unit,
-                    category=ingredient.category,
-                    country=ingredient.country,
-                ),
-            )
+    def build_orders_response() -> list[OrderResponse]:
+        entry_statement = (
+            select(IngredientEntry, Ingredient)
+            .join(Ingredient, IngredientEntry.ingredient_id == Ingredient.id)
+        )
+        exit_statement = (
+            select(IngredientExit, Ingredient)
+            .join(Ingredient, IngredientExit.ingredient_id == Ingredient.id)
         )
 
-    for exit_order, ingredient in exits:
-        if exit_order.id is None or ingredient.id is None:
-            continue
-        movements.append(
-            OrderResponse(
-                id=exit_order.id,
-                movement_type="outbound",
-                quantity=exit_order.quantity,
-                created_at=exit_order.created_at,
-                user_uuid=exit_order.user_uuid,
-                ingredient=IngredientOrderItem(
-                    id=ingredient.id,
-                    name=ingredient.name,
-                    sku=ingredient.sku,
-                    unit=ingredient.unit,
-                    category=ingredient.category,
-                    country=ingredient.country,
-                ),
-            )
-        )
+        entries = db.exec(entry_statement).all()
+        exits = db.exec(exit_statement).all()
+        movements: list[OrderResponse] = []
 
-    movements.sort(key=lambda movement: movement.created_at)
-    return movements
+        for entry, ingredient in entries:
+            if entry.id is None or ingredient.id is None:
+                continue
+            movements.append(
+                OrderResponse(
+                    id=entry.id,
+                    movement_type="inbound",
+                    quantity=entry.quantity,
+                    created_at=entry.created_at,
+                    user_uuid=entry.user_uuid,
+                    ingredient=IngredientOrderItem(
+                        id=ingredient.id,
+                        name=ingredient.name,
+                        sku=ingredient.sku,
+                        unit=ingredient.unit,
+                        category=ingredient.category,
+                        country=ingredient.country,
+                    ),
+                )
+            )
+
+        for exit_order, ingredient in exits:
+            if exit_order.id is None or ingredient.id is None:
+                continue
+            movements.append(
+                OrderResponse(
+                    id=exit_order.id,
+                    movement_type="outbound",
+                    quantity=exit_order.quantity,
+                    created_at=exit_order.created_at,
+                    user_uuid=exit_order.user_uuid,
+                    ingredient=IngredientOrderItem(
+                        id=ingredient.id,
+                        name=ingredient.name,
+                        sku=ingredient.sku,
+                        unit=ingredient.unit,
+                        category=ingredient.category,
+                        country=ingredient.country,
+                    ),
+                )
+            )
+
+        movements.sort(key=lambda movement: movement.created_at)
+        return movements
+
+    return orders_cache.get_or_set("inventory.orders", build_orders_response)

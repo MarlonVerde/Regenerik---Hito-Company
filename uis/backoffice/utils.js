@@ -17,7 +17,27 @@
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   }
 
-  const utilities = { parseApiError, normalizeApiBase, formatFileSize };
+  function createMemoizedByDependencies(calculator) {
+    let previousDependencies = null;
+    let previousValue = null;
+
+    return function memoized(dependencies, ...args) {
+      const deps = Array.isArray(dependencies) ? dependencies : [];
+      const dependenciesChanged =
+        !previousDependencies ||
+        previousDependencies.length !== deps.length ||
+        deps.some((value, index) => value !== previousDependencies[index]);
+
+      if (dependenciesChanged) {
+        previousValue = calculator(...args);
+        previousDependencies = deps.slice();
+      }
+
+      return previousValue;
+    };
+  }
+
+  const utilities = { parseApiError, normalizeApiBase, formatFileSize, createMemoizedByDependencies };
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = utilities;
   } else {

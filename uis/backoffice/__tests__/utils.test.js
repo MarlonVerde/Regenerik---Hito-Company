@@ -2,13 +2,18 @@ const {
   parseApiError,
   normalizeApiBase,
   formatFileSize,
+  createMemoizedByDependencies,
 } = require('../utils');
 const { readFileSync } = require('node:fs');
 const { runInNewContext } = require('node:vm');
 
 test('browser helpers do not collide with app lexical declarations', () => {
   const source = readFileSync(require.resolve('../utils'), 'utf8');
-  expect(() => runInNewContext(`${source}\nconst { parseApiError, normalizeApiBase, formatFileSize } = window.BackofficeUtils;`, { window: {} })).not.toThrow();
+  expect(() =>
+    runInNewContext(
+      `${source}\nconst { parseApiError, normalizeApiBase, formatFileSize, createMemoizedByDependencies } = window.BackofficeUtils;`,
+      { window: {} }
+    )).not.toThrow();
 });
 
 describe('parseApiError', () => {
@@ -43,5 +48,31 @@ describe('formatFileSize', () => {
   test('rejects negative and non-numeric sizes', () => {
     expect(formatFileSize(-1)).toBeNull();
     expect(formatFileSize(Number.NaN)).toBeNull();
+  });
+});
+
+describe('createMemoizedByDependencies', () => {
+  test('reuses cached value when dependencies do not change', () => {
+    let runs = 0;
+    const calculator = (value) => {
+      runs += 1;
+      return { value };
+    };
+
+    const memoized = createMemoizedByDependencies(calculator);
+    const first = memoized(['A'], 'A');
+    const second = memoized(['A'], 'B');
+
+    expect(first).toBe(second);
+    expect(second).toEqual({ value: 'A' });
+    expect(runs).toBe(1);
+  });
+
+  test('recomputes when dependency array changes', () => {
+    const calculator = (value) => value;
+    const memoized = createMemoizedByDependencies(calculator);
+
+    expect(memoized(['A'], 'A')).toBe('A');
+    expect(memoized(['B'], 'B')).toBe('B');
   });
 });

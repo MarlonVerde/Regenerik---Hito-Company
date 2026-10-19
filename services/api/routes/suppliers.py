@@ -4,6 +4,7 @@ import logging
 
 from fastapi import APIRouter, HTTPException, Query
 
+from cache import TTLMemoryCache
 from models import (
     ApiMessageResponse,
     Supplier,
@@ -20,6 +21,10 @@ from stores import supplier_store
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["suppliers"])
 store = supplier_store
+SUPPLIER_LIST_TTL_SECONDS = 60
+SUPPLIER_DETAIL_TTL_SECONDS = 120
+supplier_list_cache = TTLMemoryCache(ttl_seconds=SUPPLIER_LIST_TTL_SECONDS)
+supplier_detail_cache = TTLMemoryCache(ttl_seconds=SUPPLIER_DETAIL_TTL_SECONDS)
 
 
 @router.get("/suppliers", response_model=SupplierListResponse)
@@ -36,17 +41,21 @@ def list_suppliers(
         logger.warning("Parámetros de filtro inválidos: %s", error)
         raise HTTPException(status_code=400, detail="Parámetros de filtro inválidos. Verifica los valores enviados.") from error
 
-    suppliers = store.list(
-        country=validated_country,
-        category=validated_category,
-        status=validated_status,
+    cache_key = (validated_country or "*", validated_category or "*", validated_status or "*")
+    suppliers = supplier_list_cache.get_or_set(
+        cache_key,
+        lambda: store.list(
+            country=validated_country,
+            category=validated_category,
+            status=validated_status,
+        ),
     )
     return {"items": suppliers, "total": len(suppliers)}
 
 
 @router.get("/suppliers/{supplier_id}", response_model=Supplier)
 def get_supplier_detail(supplier_id: str) -> Supplier:
-    supplier = store.get(supplier_id)
+    supplier = supplier_detail_cache.get_or_set(supplier_id, lambda: store.get(supplier_id))
     if supplier is None:
         raise HTTPException(status_code=404, detail="Proveedor no encontrado")
     return supplier
@@ -55,6 +64,8 @@ def get_supplier_detail(supplier_id: str) -> Supplier:
 @router.post("/suppliers", status_code=201, response_model=Supplier)
 def create_supplier(payload: SupplierCreate) -> Supplier:
     created = store.create(payload)
+    supplier_list_cache.invalidate_all()
+    supplier_detail_cache.invalidate(created["id"])
     return created
 
 
@@ -63,6 +74,8 @@ def update_supplier_rate(supplier_id: str, payload: SupplierRateUpdate) -> Suppl
     updated = store.update_rate(supplier_id=supplier_id, new_rate=payload.rate_per_unit)
     if updated is None:
         raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    supplier_list_cache.invalidate_all()
+    supplier_detail_cache.invalidate(supplier_id)
     return updated
 
 
@@ -71,6 +84,8 @@ def update_supplier_status(supplier_id: str, payload: SupplierStatusUpdate) -> S
     updated = store.update_status(supplier_id=supplier_id, new_status=payload.status)
     if updated is None:
         raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    supplier_list_cache.invalidate_all()
+    supplier_detail_cache.invalidate(supplier_id)
     return updated
 
 
@@ -79,4 +94,6 @@ def delete_supplier(supplier_id: str) -> ApiMessageResponse:
     deleted = store.delete(supplier_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="Proveedor no encontrado")
+    supplier_list_cache.invalidate_all()
+    supplier_detail_cache.invalidate(supplier_id)
     return {"message": "Proveedor eliminado"}
