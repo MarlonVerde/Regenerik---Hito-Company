@@ -95,4 +95,13 @@ class OrderResponse(BaseModel):
     quantity: float
     created_at: datetime
     user_uuid: str
-    product: IngredientResponse
+    ingredient: "IngredientOrderItem"
+
+
+class IngredientOrderItem(BaseModel):
+    id: int
+    name: str
+    sku: str
+    unit: str
+    category: str
+    country: str

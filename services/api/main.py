@@ -7,7 +7,7 @@ from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import Response
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -33,6 +33,7 @@ from routes.auth import router as auth_router  # noqa: E402
 from routes.profiles import router as profiles_router  # noqa: E402
 from routes.suppliers import router as suppliers_router  # noqa: E402
 from routes.users import router as users_router  # noqa: E402
+from models import HealthResponse, IncidentAnalysisSummaryResponse  # noqa: E402
 
 logger = logging.getLogger(__name__)
 app = FastAPI(title="Brasaland Operations API", version="1.0.0")
@@ -61,13 +62,13 @@ LATEST_SUMMARY: dict | None = None
 LATEST_RESULTS_CSV: str | None = None
 
 
-@app.get("/health")
-def health() -> dict:
+@app.get("/health", response_model=HealthResponse)
+def health() -> HealthResponse:
     return {"status": "alive"}
 
 
-@app.get("/health/ready")
-def readiness() -> dict:
+@app.get("/health/ready", response_model=HealthResponse)
+def readiness() -> HealthResponse:
     try:
         with get_engine().connect() as connection:
             connection.execute(text("SELECT 1"))
@@ -80,8 +81,12 @@ def readiness() -> dict:
     return {"status": "ready"}
 
 
-@app.post("/api/incidents/analyze", dependencies=[Depends(get_current_user)])
-async def analyze_incidents(file: UploadFile = File(...)) -> JSONResponse:
+@app.post(
+    "/api/incidents/analyze",
+    response_model=IncidentAnalysisSummaryResponse,
+    dependencies=[Depends(get_current_user)],
+)
+async def analyze_incidents(file: UploadFile = File(...)) -> IncidentAnalysisSummaryResponse:
     global LATEST_SUMMARY, LATEST_RESULTS_CSV
 
     if not file.filename:
@@ -119,7 +124,7 @@ async def analyze_incidents(file: UploadFile = File(...)) -> JSONResponse:
     LATEST_SUMMARY = summary
     LATEST_RESULTS_CSV = csv_output
 
-    return JSONResponse(content=summary)
+    return summary
 
 
 @app.get("/api/incidents/results/export", dependencies=[Depends(get_current_user)])
@@ -134,11 +139,15 @@ def export_last_results() -> Response:
     )
 
 
-@app.get("/api/incidents/results/latest", dependencies=[Depends(get_current_user)])
-def latest_results() -> JSONResponse:
+@app.get(
+    "/api/incidents/results/latest",
+    response_model=IncidentAnalysisSummaryResponse,
+    dependencies=[Depends(get_current_user)],
+)
+def latest_results() -> IncidentAnalysisSummaryResponse:
     if LATEST_SUMMARY is None:
         raise HTTPException(status_code=404, detail="No hay análisis ejecutados todavía")
-    return JSONResponse(content=LATEST_SUMMARY)
+    return LATEST_SUMMARY
 
 
 app.include_router(auth_router)

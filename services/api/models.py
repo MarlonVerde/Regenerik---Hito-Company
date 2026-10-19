@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from enum import Enum
 import re
+from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 VALID_CATEGORIES = [
@@ -381,6 +382,71 @@ class AuthMeResponse(BaseModel):
     email: str
     role: UserRole
     profile: Profile | None
+
+
+class ApiMessageResponse(BaseModel):
+    message: str
+
+
+class UserListResponse(BaseModel):
+    items: list[UserPublic]
+    total: int
+
+
+class SupplierListResponse(BaseModel):
+    items: list[Supplier]
+    total: int
+
+
+class HealthResponse(BaseModel):
+    status: Literal["alive", "ready"]
+
+
+class IncidentTotalsResponse(BaseModel):
+    total_records: int
+    valid_records: int
+    invalid_records: int
+
+
+class IncidentInvalidBreakdownResponse(BaseModel):
+    missing_location_id: int
+    invalid_or_missing_category: int
+    empty_description: int
+    closed_without_score: int
+
+
+class IncidentCategoryBreakdownResponse(BaseModel):
+    category: str
+    count: int
+    percentage: float
+
+
+class IncidentStatusBreakdownResponse(BaseModel):
+    status: str
+    count: int
+    percentage: float
+
+
+class IncidentSatisfactionDistributionResponse(BaseModel):
+    score: int
+    label: str
+    count: int
+
+
+class IncidentSatisfactionIndexResponse(BaseModel):
+    closed_cases: int
+    scored_cases: int
+    average_score: float
+    distribution: list[IncidentSatisfactionDistributionResponse]
+
+
+class IncidentAnalysisSummaryResponse(BaseModel):
+    source_file: str
+    totals: IncidentTotalsResponse
+    invalid_breakdown: IncidentInvalidBreakdownResponse
+    breakdown_by_category: list[IncidentCategoryBreakdownResponse]
+    breakdown_by_status: list[IncidentStatusBreakdownResponse]
+    satisfaction_index: IncidentSatisfactionIndexResponse
 
 
 class ForgotPasswordRequest(BaseModel):

@@ -6,11 +6,13 @@ from database import get_db
 from services.models import Ingredient, IngredientEntry, IngredientExit
 from schemas import (
     IngredientCreate,
-    IngredientResponse,
     IngredientEntryCreate,
     IngredientEntryResponse,
     IngredientExitCreate,
     IngredientExitResponse,
+    IngredientOrderItem,
+    IngredientResponse,
+    OrderResponse,
 )
 
 # Ajustá solamente este import a la ubicación REAL de tu auth existente.
@@ -177,8 +179,8 @@ def create_outbound_order(
     return IngredientExitResponse.model_validate(order)
 
 
-@router.get("/orders")
-def get_orders(db: Session = Depends(get_db)) -> list[dict]:
+@router.get("/orders", response_model=list[OrderResponse])
+def get_orders(db: Session = Depends(get_db)) -> list[OrderResponse]:
     entry_statement = (
         select(IngredientEntry, Ingredient)
         .join(Ingredient, IngredientEntry.ingredient_id == Ingredient.id)
@@ -190,45 +192,49 @@ def get_orders(db: Session = Depends(get_db)) -> list[dict]:
 
     entries = db.exec(entry_statement).all()
     exits = db.exec(exit_statement).all()
-    movements = []
+    movements: list[OrderResponse] = []
 
     for entry, ingredient in entries:
+        if entry.id is None or ingredient.id is None:
+            continue
         movements.append(
-            {
-                "id": entry.id,
-                "movement_type": "inbound",
-                "quantity": entry.quantity,
-                "created_at": entry.created_at,
-                "user_uuid": entry.user_uuid,
-                "ingredient": {
-                    "id": ingredient.id,
-                    "name": ingredient.name,
-                    "sku": ingredient.sku,
-                    "unit": ingredient.unit,
-                    "category": ingredient.category,
-                    "country": ingredient.country,
-                },
-            }
+            OrderResponse(
+                id=entry.id,
+                movement_type="inbound",
+                quantity=entry.quantity,
+                created_at=entry.created_at,
+                user_uuid=entry.user_uuid,
+                ingredient=IngredientOrderItem(
+                    id=ingredient.id,
+                    name=ingredient.name,
+                    sku=ingredient.sku,
+                    unit=ingredient.unit,
+                    category=ingredient.category,
+                    country=ingredient.country,
+                ),
+            )
         )
 
     for exit_order, ingredient in exits:
+        if exit_order.id is None or ingredient.id is None:
+            continue
         movements.append(
-            {
-                "id": exit_order.id,
-                "movement_type": "outbound",
-                "quantity": exit_order.quantity,
-                "created_at": exit_order.created_at,
-                "user_uuid": exit_order.user_uuid,
-                "ingredient": {
-                    "id": ingredient.id,
-                    "name": ingredient.name,
-                    "sku": ingredient.sku,
-                    "unit": ingredient.unit,
-                    "category": ingredient.category,
-                    "country": ingredient.country,
-                },
-            }
+            OrderResponse(
+                id=exit_order.id,
+                movement_type="outbound",
+                quantity=exit_order.quantity,
+                created_at=exit_order.created_at,
+                user_uuid=exit_order.user_uuid,
+                ingredient=IngredientOrderItem(
+                    id=ingredient.id,
+                    name=ingredient.name,
+                    sku=ingredient.sku,
+                    unit=ingredient.unit,
+                    category=ingredient.category,
+                    country=ingredient.country,
+                ),
+            )
         )
 
-    movements.sort(key=lambda movement: movement["created_at"])
+    movements.sort(key=lambda movement: movement.created_at)
     return movements
