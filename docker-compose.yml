@@ -1,8 +1,8 @@
 services:
   interfaces:
     build:
-      context: ./uis
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: uis/Dockerfile
     ports:
       - "3000:3000"
       - "3001:3001"
