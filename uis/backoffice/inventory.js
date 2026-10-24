@@ -1,7 +1,7 @@
 (function initializeInventoryApi(root) {
   const AUTH_TOKEN_KEY = 'brasaland.jwt';
   const API_BASE_KEY = 'brasaland.apiBase';
-  const DEFAULT_API_BASE = 'http://localhost:8000';
+  const DEFAULT_API_BASE = 'https://verbose-space-goggles-wv7vwww5wgjv279v-8000.app.github.dev';
 
   function getToken() {
     return root.localStorage.getItem(AUTH_TOKEN_KEY);

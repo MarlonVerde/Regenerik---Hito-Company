@@ -459,7 +459,16 @@ def get_engine():
     if not DATABASE_URL:
         raise RuntimeError("DATABASE_URL no está configurada")
     try:
-        return create_engine(DATABASE_URL, echo=False, pool_pre_ping=True)
+        engine = create_engine(DATABASE_URL, echo=False, pool_pre_ping=True)
+        if engine.dialect.driver == "psycopg":
+            engine.dispose()
+            engine = create_engine(
+                DATABASE_URL,
+                echo=False,
+                pool_pre_ping=True,
+                connect_args={"prepare_threshold": None},
+            )
+        return engine
     except (ArgumentError, ModuleNotFoundError) as error:
         raise RuntimeError("DATABASE_URL inválida o falta el driver PostgreSQL requerido") from error
 
