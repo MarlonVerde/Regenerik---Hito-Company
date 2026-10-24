@@ -1,6 +1,6 @@
 const AUTH_TOKEN_KEY = 'brasaland.jwt';
 const API_BASE_KEY = 'brasaland.apiBase';
-const DEFAULT_API_BASE = 'http://127.0.0.1:8000';
+const DEFAULT_API_BASE = 'https://verbose-space-goggles-wv7vwww5wgjv279v-8000.app.github.dev';
 
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('fileInput');
@@ -64,7 +64,11 @@ function setProfileMessage(message, type = '') {
 
 function getApiBase() {
   const inputValue = apiBaseUrlInput.value.trim();
-  const value = (inputValue || localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE).replace(/\/+$/, '');
+  const saved = localStorage.getItem(API_BASE_KEY) || '';
+  let value = (saved || inputValue || DEFAULT_API_BASE).replace(/\/+$/, '');
+  if (/^(https?:\/\/)?(127\.0\.0\.1|localhost)(:\d+)?$/i.test(value)) {
+    value = DEFAULT_API_BASE;
+  }
   localStorage.setItem(API_BASE_KEY, value);
   if (apiBaseUrlInput.value.trim() !== value) {
     apiBaseUrlInput.value = value;
@@ -328,19 +332,12 @@ function logout() {
 }
 
 async function initializeAuthenticatedSession() {
-  try {
-    const me = await apiFetch('/auth/me');
-    updateSessionUi(me);
-    profileEmail.textContent = me.email;
-    profileRole.textContent = me.role;
-    showProtectedApp();
-    await loadProfile();
-  } catch (error) {
-    clearToken();
-    clearSessionUi();
-    showAuthPanel('login');
-    throw error;
-  }
+  const me = await apiFetch('/auth/me');
+  updateSessionUi(me);
+  profileEmail.textContent = me.email;
+  profileRole.textContent = me.role;
+  showProtectedApp();
+  await loadProfile();
 }
 
 async function analyzeFile() {
@@ -496,9 +493,16 @@ profileForm.addEventListener('submit', saveProfile);
 analyzeBtn.addEventListener('click', analyzeFile);
 downloadBtn.addEventListener('click', downloadResults);
 
+apiBaseUrlInput.value = getApiBase();
+apiBaseUrlInput.addEventListener('change', () => {
+  localStorage.setItem(API_BASE_KEY, apiBaseUrlInput.value.trim().replace(/\/+$/, '') || DEFAULT_API_BASE);
+});
+
 if (getToken()) {
-  initializeAuthenticatedSession().catch(() => {
-    redirectToLogin('Tu sesión no es válida. Inicia sesión de nuevo.');
+  initializeAuthenticatedSession().catch((error) => {
+    if (!getToken()) return;
+    showAuthPanel('login');
+    setAuthMessage(`No se pudo comprobar la sesión con ${getApiBase()}: ${error.message}. Recarga para reintentar.`, 'error');
   });
 } else {
   redirectToLogin('Debes iniciar sesión para acceder a la vista protegida.');

@@ -1,0 +1,1060 @@
+{
+  "phase": "after",
+  "measuredAt": "2026-10-23T21:56:43.138Z",
+  "node": "v24.14.0",
+  "runs": 3,
+  "server": "Python http.server: static files, no dev compilation",
+  "pages": [
+    {
+      "name": "website-home",
+      "device": "mobile",
+      "url": "http://127.0.0.1:3000/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 88,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 1204.3824,
+          "cls": 0,
+          "fcpMs": 754.3824,
+          "tbtMs": 466.8088,
+          "ttfbMs": 2.2590000000000003,
+          "bytes": 62653,
+          "failedAudits": [
+            {
+              "id": "total-blocking-time",
+              "title": "Total Blocking Time",
+              "value": "470 ms"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "640 ms"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 50 ms"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 21 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 50 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 1213.7791,
+          "cls": 0,
+          "fcpMs": 763.7791,
+          "tbtMs": 80.11045000000001,
+          "ttfbMs": 7.032,
+          "bytes": 62653,
+          "failedAudits": [
+            {
+              "id": "total-blocking-time",
+              "title": "Total Blocking Time",
+              "value": "80 ms"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "120 ms"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 20 ms"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 21 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 20 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 1204.7251,
+          "cls": 0,
+          "fcpMs": 754.7251000000001,
+          "tbtMs": 0,
+          "ttfbMs": 0.1180000000000001,
+          "bytes": 62653,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 80 ms"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 21 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 6 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 39 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 80 ms"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 1204.7251,
+        "cls": 0,
+        "fcpMs": 754.7251000000001,
+        "tbtMs": 80.11045000000001,
+        "ttfbMs": 2.2590000000000003,
+        "bytes": 62653,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "name": "website-home",
+      "device": "desktop",
+      "url": "http://127.0.0.1:3000/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 373.5227,
+          "cls": 0,
+          "fcpMs": 221.5227,
+          "tbtMs": 0,
+          "ttfbMs": 6.025,
+          "bytes": 127295,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 59 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 12 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 86 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 420,
+          "cls": 0,
+          "fcpMs": 260,
+          "tbtMs": 0,
+          "ttfbMs": 0.712,
+          "bytes": 127295,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 60 ms"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 59 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 12 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 86 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 60 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 363.2789,
+          "cls": 0,
+          "fcpMs": 206.27890000000002,
+          "tbtMs": 0,
+          "ttfbMs": 0.9239999999999999,
+          "bytes": 127295,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "uses-responsive-images",
+              "title": "Properly size images",
+              "value": "Est savings of 59 KiB"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 12 KiB"
+            },
+            {
+              "id": "image-delivery-insight",
+              "title": "Improve image delivery",
+              "value": "Est savings of 86 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 373.5227,
+        "cls": 0,
+        "fcpMs": 221.5227,
+        "tbtMs": 0,
+        "ttfbMs": 0.9239999999999999,
+        "bytes": 127295,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "name": "website-registration",
+      "device": "mobile",
+      "url": "http://127.0.0.1:3000/application.html",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 1142,
+          "cls": 0,
+          "fcpMs": 817,
+          "tbtMs": 130,
+          "ttfbMs": 7.851,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "total-blocking-time",
+              "title": "Total Blocking Time",
+              "value": "130 ms"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "330 ms"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 100 ms"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 100 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 1039.8089,
+          "cls": 0,
+          "fcpMs": 751.8089,
+          "tbtMs": 8,
+          "ttfbMs": 0.5239999999999999,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 90 ms"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 90 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 989.7817,
+          "cls": 0,
+          "fcpMs": 752.7817,
+          "tbtMs": 0,
+          "ttfbMs": 0.8099999999999999,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 110 ms"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 110 ms"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 1039.8089,
+        "cls": 0,
+        "fcpMs": 752.7817,
+        "tbtMs": 8,
+        "ttfbMs": 0.8099999999999999,
+        "bytes": 6376,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "name": "website-registration",
+      "device": "desktop",
+      "url": "http://127.0.0.1:3000/application.html",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 307.7074,
+          "cls": 0,
+          "fcpMs": 307.7074,
+          "tbtMs": 0,
+          "ttfbMs": 1.286,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 295.7801,
+          "cls": 0,
+          "fcpMs": 295.7801,
+          "tbtMs": 0,
+          "ttfbMs": 1.174,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          },
+          "lcpMs": 265.2982,
+          "cls": 0,
+          "fcpMs": 203.2982,
+          "tbtMs": 0,
+          "ttfbMs": 1.4400000000000002,
+          "bytes": 6376,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "2 resources found"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 0 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        }
+      ],
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 295.7801,
+        "cls": 0,
+        "fcpMs": 295.7801,
+        "tbtMs": 0,
+        "ttfbMs": 1.286,
+        "bytes": 6376,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "name": "backoffice-dashboard",
+      "device": "mobile",
+      "url": "http://127.0.0.1:3000/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 1636.449,
+          "cls": 0.011455322521342291,
+          "fcpMs": 1063.0473000000002,
+          "tbtMs": 63,
+          "ttfbMs": 0.6900000000000002,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "1.6 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "110 ms"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 380 ms"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 380 ms"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 1560.9142500000003,
+          "cls": 0.011455322521342291,
+          "fcpMs": 1061.5873499999998,
+          "tbtMs": 20,
+          "ttfbMs": 4.895,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "1.6 s"
+            },
+            {
+              "id": "max-potential-fid",
+              "title": "Max Potential First Input Delay",
+              "value": "70 ms"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 370 ms"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 370 ms"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 1604.6117500000003,
+          "cls": 0.011455322521342291,
+          "fcpMs": 1053.71295,
+          "tbtMs": 7,
+          "ttfbMs": 2.626,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "largest-contentful-paint",
+              "title": "Largest Contentful Paint",
+              "value": "1.6 s"
+            },
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "render-blocking-resources",
+              "title": "Eliminate render-blocking resources",
+              "value": "Est savings of 410 ms"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests",
+              "value": "Est savings of 410 ms"
+            }
+          ]
+        }
+      ],
+      "supplierRows": 15,
+      "sessionRequests": [
+        {
+          "path": "/auth/me",
+          "start": 80.19999999995343,
+          "duration": 59.10000000009313
+        },
+        {
+          "path": "/suppliers",
+          "start": 140.69999999995343,
+          "duration": 31.4000000001397
+        }
+      ],
+      "suppliersReadyMs": 172.10000000009313,
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 1604.6117500000003,
+        "cls": 0.011455322521342291,
+        "fcpMs": 1061.5873499999998,
+        "tbtMs": 20,
+        "ttfbMs": 2.626,
+        "bytes": 58363,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 50
+        }
+      }
+    },
+    {
+      "name": "backoffice-dashboard",
+      "device": "desktop",
+      "url": "http://127.0.0.1:3000/uis/backoffice/",
+      "samples": [
+        {
+          "run": 1,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 385.9996,
+          "cls": 0.012160790002814436,
+          "fcpMs": 302.56645000000003,
+          "tbtMs": 0,
+          "ttfbMs": 0.007000000000000117,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        },
+        {
+          "run": 2,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 367.8349,
+          "cls": 0.012160790002814436,
+          "fcpMs": 297.05755,
+          "tbtMs": 0,
+          "ttfbMs": 5.139,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        },
+        {
+          "run": 3,
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 50
+          },
+          "lcpMs": 392.97450000000003,
+          "cls": 0.012160790002814436,
+          "fcpMs": 309.81000000000006,
+          "tbtMs": 0,
+          "ttfbMs": 1.413,
+          "bytes": 58363,
+          "failedAudits": [
+            {
+              "id": "uses-long-cache-ttl",
+              "title": "Serve static assets with an efficient cache policy",
+              "value": "7 resources found"
+            },
+            {
+              "id": "uses-text-compression",
+              "title": "Enable text compression",
+              "value": "Est savings of 3 KiB"
+            },
+            {
+              "id": "meta-description",
+              "title": "Document does not have a meta description"
+            },
+            {
+              "id": "is-crawlable",
+              "title": "Page is blocked from indexing"
+            },
+            {
+              "id": "cache-insight",
+              "title": "Use efficient cache lifetimes",
+              "value": "Est savings of 5 KiB"
+            },
+            {
+              "id": "network-dependency-tree-insight",
+              "title": "Network dependency tree"
+            },
+            {
+              "id": "render-blocking-insight",
+              "title": "Render blocking requests"
+            }
+          ]
+        }
+      ],
+      "supplierRows": 15,
+      "sessionRequests": [
+        {
+          "path": "/auth/me",
+          "start": 61.700000000186265,
+          "duration": 59.199999999953434
+        },
+        {
+          "path": "/suppliers",
+          "start": 124.9000000001397,
+          "duration": 15.699999999953434
+        }
+      ],
+      "suppliersReadyMs": 140.60000000009313,
+      "browserErrors": [],
+      "horizontalOverflow": false,
+      "median": {
+        "lcpMs": 385.9996,
+        "cls": 0.012160790002814436,
+        "fcpMs": 302.56645000000003,
+        "tbtMs": 0,
+        "ttfbMs": 1.413,
+        "bytes": 58363,
+        "scores": {
+          "performance": 100,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 50
+        }
+      }
+    }
+  ],
+  "lighthouseVersion": "12.8.2",
+  "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36"
+}

@@ -1,6 +1,6 @@
 const TOKEN_KEY = 'brasaland.jwt';
 const API_BASE_KEY = 'brasaland.apiBase';
-const DEFAULT_API_BASE = 'http://127.0.0.1:8000';
+const DEFAULT_API_BASE = 'https://verbose-space-goggles-wv7vwww5wgjv279v-8000.app.github.dev';
 
 function getAppBase() {
   const marker = '/uis/web/';
@@ -58,7 +58,15 @@ function clearToken() {
 }
 
 function getApiBase() {
-  return (localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE).replace(/\/+$/, '');
+  const saved = localStorage.getItem(API_BASE_KEY) || '';
+  const isLocal = /^(https?:\/\/)?(127\.0\.0\.1|localhost)(:\d+)?\/?$/i.test(saved);
+
+  if (isLocal) {
+    localStorage.setItem(API_BASE_KEY, DEFAULT_API_BASE);
+    return DEFAULT_API_BASE;
+  }
+
+  return (saved || DEFAULT_API_BASE).replace(/\/+$/, '');
 }
 
 function setApiBase(value) {
