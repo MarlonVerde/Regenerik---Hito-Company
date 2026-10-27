@@ -1,0 +1,140 @@
+{
+  "status": "demo",
+  "notice": "Carta de muestra. Productos, ingredientes, precios y disponibilidad pendientes de confirmación. Fotografías ilustrativas, no de platos de BRASALAND.",
+  "currency": null,
+  "heroImage": {
+    "src": "./assets/parrilla-hero-1440.webp",
+    "smallSrc": "./assets/parrilla-hero-960.webp",
+    "alt": "Fotografía ilustrativa de carne a la parrilla cortada sobre una tabla; no es un plato de BRASALAND."
+  },
+  "categories": [
+    {
+      "id": "parrilla",
+      "name": "Parrilla y carnes",
+      "eyebrow": "El encuentro con el fuego",
+      "image": {
+        "src": "./assets/parrilla-960.webp", "smallSrc": "./assets/parrilla-480.webp", "width": 960, "height": 600,
+        "alt": "Carne a la parrilla cortada sobre una tabla. Fotografía ilustrativa.",
+        "author": "Wikiuser100", "license": "CC BY-SA 4.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Grilled_flank_steak.jpg"
+      },
+      "products": [
+        { "name": "Bife a la parrilla", "description": "Ejemplo de corte a la brasa, con una preparación de presentación sencilla.", "price": null },
+        { "name": "Entrecot", "description": "Ejemplo de corte de carne; acompañamiento e ingredientes por definir.", "price": null },
+        { "name": "Asado", "description": "Ejemplo de una propuesta de cocción a la brasa.", "price": null },
+        { "name": "Pollo a la parrilla", "description": "Ejemplo de una alternativa de ave, con preparación por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "entradas",
+      "name": "Entradas",
+      "eyebrow": "Para comenzar",
+      "image": {
+        "src": "./assets/entradas-960.webp", "smallSrc": "./assets/entradas-480.webp", "width": 960, "height": 600,
+        "alt": "Provoleta horneada en una cazuela. Fotografía ilustrativa.",
+        "author": "Horacio Cambeiro", "license": "CC BY 3.0", "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Provoleta_con_cazuela_(al_horno).jpg"
+      },
+      "products": [
+        { "name": "Provoleta", "description": "Ejemplo de queso a la parrilla; receta e ingredientes por confirmar.", "price": null },
+        { "name": "Empanadas", "description": "Ejemplo de entrada para compartir; relleno y presentación por definir.", "price": null },
+        { "name": "Vegetales a la brasa", "description": "Ejemplo de entrada vegetal; selección de ingredientes por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "guarniciones",
+      "name": "Guarniciones",
+      "eyebrow": "Al lado de la brasa",
+      "image": {
+        "src": "./assets/guarniciones-960.webp", "smallSrc": "./assets/guarniciones-480.webp", "width": 960, "height": 600,
+        "alt": "Papas fritas rústicas servidas en una bandeja. Fotografía ilustrativa.",
+        "author": "Horacio Cambeiro", "license": "CC BY-SA 3.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Rustic_French_fries_served_on_a_metal_tray_in_Capiov%C3%AD,_Misiones,_Argentina.jpg"
+      },
+      "products": [
+        { "name": "Papas fritas", "description": "Ejemplo de acompañamiento; corte y preparación por confirmar.", "price": null },
+        { "name": "Puré de papas", "description": "Ejemplo de guarnición; receta e ingredientes por definir.", "price": null },
+        { "name": "Vegetales asados", "description": "Ejemplo de acompañamiento vegetal; composición por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "ensaladas",
+      "name": "Ensaladas",
+      "eyebrow": "El lado fresco",
+      "image": {
+        "src": "./assets/ensaladas-960.webp", "smallSrc": "./assets/ensaladas-480.webp", "width": 960, "height": 600,
+        "alt": "Ensalada César con hojas verdes y aderezo. Fotografía ilustrativa.",
+        "author": "Telluride", "license": "CC BY-SA 3.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Caesar-salad.jpg"
+      },
+      "products": [
+        { "name": "Ensalada de la casa", "description": "Ejemplo de ensalada; hojas, vegetales y aderezo por confirmar.", "price": null },
+        { "name": "Ensalada César", "description": "Ejemplo de una propuesta clásica; receta y presentación por definir.", "price": null },
+        { "name": "Ensalada de temporada", "description": "Ejemplo de composición vegetal; ingredientes por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "sin-alcohol",
+      "name": "Bebidas sin alcohol",
+      "eyebrow": "Una pausa fresca",
+      "image": {
+        "src": "./assets/sin-alcohol-960.webp", "smallSrc": "./assets/sin-alcohol-480.webp", "width": 960, "height": 600,
+        "alt": "Vaso de limonada. Fotografía ilustrativa.",
+        "author": "Sam Howzit", "license": "CC BY 2.0", "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Lemonade.jpg"
+      },
+      "products": [
+        { "name": "Limonada", "description": "Ejemplo de bebida cítrica; ingredientes y presentación por confirmar.", "price": null },
+        { "name": "Agua", "description": "Ejemplo de bebida; presentación por definir.", "price": null },
+        { "name": "Jugo de fruta", "description": "Ejemplo de bebida; frutas y preparación por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "cervezas",
+      "name": "Cervezas",
+      "eyebrow": "El brindis compartido",
+      "image": {
+        "src": "./assets/cervezas-960.webp", "smallSrc": "./assets/cervezas-480.webp", "width": 960, "height": 600,
+        "alt": "Cerveza servida en una copa. Imagen ilustrativa; no indica marca ni disponibilidad en BRASALAND.",
+        "author": "Christian \"VisualBeo\" Horvat", "license": "CC BY-SA 3.0", "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Beer_wuerzburger_hofbraue_v.jpg"
+      },
+      "products": [
+        { "name": "Cerveza rubia", "description": "Ejemplo de estilo; marca y presentación por confirmar.", "price": null },
+        { "name": "Cerveza artesanal", "description": "Ejemplo de selección; origen y estilo por definir.", "price": null }
+      ]
+    },
+    {
+      "id": "vinos",
+      "name": "Vinos",
+      "eyebrow": "Para acompañar el momento",
+      "image": {
+        "src": "./assets/vinos-960.webp", "smallSrc": "./assets/vinos-480.webp", "width": 960, "height": 600,
+        "alt": "Vino tinto servido en una copa. Fotografía ilustrativa.",
+        "author": "Fabio Ingrosso", "license": "CC BY 2.0", "licenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Wine_being_poured_into_a_glass.jpg"
+      },
+      "products": [
+        { "name": "Vino tinto", "description": "Ejemplo de selección; etiqueta, origen y presentación por confirmar.", "price": null },
+        { "name": "Vino blanco", "description": "Ejemplo de selección; etiqueta, origen y presentación por confirmar.", "price": null },
+        { "name": "Vino rosado", "description": "Ejemplo de selección; etiqueta, origen y presentación por confirmar.", "price": null }
+      ]
+    },
+    {
+      "id": "cocteles",
+      "name": "Cócteles y bebidas preparadas",
+      "eyebrow": "Un último encuentro",
+      "image": {
+        "src": "./assets/cocteles-960.webp", "smallSrc": "./assets/cocteles-480.webp", "width": 960, "height": 600,
+        "alt": "Dos copas de spritz. Fotografía ilustrativa.",
+        "author": "Missvain (Sarah Stierch)", "license": "CC BY 4.0", "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+        "source": "https://commons.wikimedia.org/wiki/File:Aperol_Spritz_-_Santa_Ynez_Kitchen_-_Sarah_Stierch.jpg"
+      },
+      "products": [
+        { "name": "Spritz", "description": "Ejemplo de bebida preparada; receta e ingredientes por confirmar.", "price": null },
+        { "name": "Mojito", "description": "Ejemplo de cóctel; receta y presentación por definir.", "price": null },
+        { "name": "Cóctel de la casa", "description": "Ejemplo de propuesta; composición pendiente de confirmación.", "price": null }
+      ]
+    }
+  ]
+}

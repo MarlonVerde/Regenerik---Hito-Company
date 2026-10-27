@@ -11,6 +11,28 @@ services:
       - ./uis/backoffice:/usr/share/nginx/html/uis/backoffice:ro
     depends_on:
       - backend
+      - backoffice
+    networks:
+      - company_network
+
+  backoffice:
+    build:
+      context: .
+      dockerfile: uis/backoffice-next/Dockerfile
+    environment:
+      BACKEND_INTERNAL_URL: http://backend:8000
+      PORT: "3002"
+      HOSTNAME: 0.0.0.0
+    expose:
+      - "3002"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3002/uis/backoffice/login/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     networks:
       - company_network
 

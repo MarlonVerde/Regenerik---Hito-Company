@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Carta de muestra de BRASALAND. Productos, precios y disponibilidad pendientes de confirmación. Fotografías ilustrativas.">
+  <title>Menú de muestra | Brasaland</title>
+  <link rel="stylesheet" href="/uis/web/public.min.css?v=public-20261026">
+  <link rel="stylesheet" href="./menu.css?v=menu-20261026">
+  <script src="./menu.js?v=menu-20261026" type="module"></script>
+</head>
+<body class="public-site menu-page">
+  <a class="skip-link" href="#menu-main">Ir al contenido principal</a>
+  <header class="public-header">
+    <nav class="public-container header-inner" aria-label="Navegación principal">
+      <a class="public-brand" href="/">Brasaland<span class="brand-rule" aria-hidden="true"></span></a>
+      <ul class="desktop-navigation">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#locations">Ubicaciones</a></li>
+        <li><a href="/uis/web/menu/" aria-current="page">Menú</a></li>
+        <li><a href="/#points">Brasa Points</a></li>
+        <li><a href="/uis/backoffice/">Backoffice</a></li>
+        <li><a href="/#contact">Contacto</a></li>
+      </ul>
+      <a class="public-button header-join" href="/application.html">Únete <span aria-hidden="true">↗</span></a>
+      <details class="mobile-navigation">
+        <summary aria-label="Navegación principal"><span class="menu-glyph" aria-hidden="true"></span></summary>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/#locations">Ubicaciones</a></li>
+          <li><a href="/uis/web/menu/" aria-current="page">Menú</a></li>
+          <li><a href="/#points">Brasa Points</a></li>
+          <li><a href="/uis/backoffice/">Backoffice</a></li>
+          <li><a href="/#contact">Contacto</a></li>
+        </ul>
+      </details>
+    </nav>
+  </header>
+
+  <main id="menu-main">
+    <section class="menu-hero" aria-labelledby="menu-title">
+      <img id="menu-hero-image" class="menu-hero-photo" alt="" width="1440" height="810" fetchpriority="high" decoding="async" hidden>
+      <div class="public-container menu-hero-copy">
+        <p class="menu-kicker">Nuestra carta · Muestra</p>
+        <h1 id="menu-title">Brasaland</h1>
+        <p class="menu-hero-line">El sabor de la brasa,<br>en cada bocado.</p>
+        <a class="menu-hero-link" href="#parrilla">Explorar la carta <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <div class="menu-demo-band"><div class="public-container"><p id="demo-notice"><strong>Carta de muestra.</strong> Productos, ingredientes, precios y disponibilidad pendientes de confirmación. Fotografías ilustrativas, no de platos de BRASALAND.</p></div></div>
+
+    <nav class="menu-category-navigation" aria-label="Categorías de la carta">
+      <div class="public-container"><ol id="menu-category-links">
+        <li><a href="#parrilla">Parrilla y carnes</a></li>
+        <li><a href="#entradas">Entradas</a></li>
+        <li><a href="#guarniciones">Guarniciones</a></li>
+        <li><a href="#ensaladas">Ensaladas</a></li>
+        <li><a href="#sin-alcohol">Sin alcohol</a></li>
+        <li><a href="#cervezas">Cervezas</a></li>
+        <li><a href="#vinos">Vinos</a></li>
+        <li><a href="#cocteles">Cócteles</a></li>
+      </ol></div>
+    </nav>
+
+    <div class="public-container menu-content" id="menu-content" aria-busy="true">
+      <p id="menu-loading" role="status">Cargando carta de muestra...</p>
+      <section id="parrilla" class="menu-feature" aria-labelledby="heading-parrilla"><div class="category-content"></div><div class="category-photo"></div></section>
+      <div class="menu-food-grid">
+        <section id="entradas" class="menu-category" aria-labelledby="heading-entradas"></section>
+        <section id="guarniciones" class="menu-category" aria-labelledby="heading-guarniciones"></section>
+        <section id="ensaladas" class="menu-category" aria-labelledby="heading-ensaladas"></section>
+      </div>
+      <section class="menu-drinks" aria-labelledby="drinks-title"><div class="menu-drinks-heading"><h2 id="drinks-title">Bebidas</h2><p>El otro lado del encuentro</p></div>
+        <div class="menu-drinks-grid">
+          <section id="sin-alcohol" class="menu-category" aria-labelledby="heading-sin-alcohol"></section>
+          <section id="cervezas" class="menu-category" aria-labelledby="heading-cervezas"></section>
+          <section id="vinos" class="menu-category" aria-labelledby="heading-vinos"></section>
+          <section id="cocteles" class="menu-category" aria-labelledby="heading-cocteles"></section>
+        </div>
+      </section>
+      <p id="menu-error" role="alert" hidden>No se pudo cargar la carta. <a href="/uis/web/menu/">Volver a intentar</a></p>
+      <noscript><p>Esta carta de muestra necesita JavaScript para cargar los productos. <a href="/">Volver a la página principal</a>.</p></noscript>
+    </div>
+  </main>
+
+  <footer class="menu-footer"><div class="public-container">
+    <div class="menu-footer-top"><a class="public-brand" href="/">Brasaland<span class="brand-rule" aria-hidden="true"></span></a><p>El sabor de la brasa, en cada bocado.</p><a href="#menu-main">Volver arriba <span aria-hidden="true">↑</span></a></div>
+    <details class="menu-photo-credits"><summary>Fotografías y licencias</summary><p>Fotografías ilustrativas de terceros, no de platos de BRASALAND. Adaptadas mediante recorte y conversión a WebP. Cada recurso conserva su licencia original.</p><ul id="photo-credits"></ul></details>
+    <p class="menu-footer-note">Carta de muestra · No constituye una oferta comercial. © Brasaland.</p>
+  </div></footer>
+</body>
+</html>

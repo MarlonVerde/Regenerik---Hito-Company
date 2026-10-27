@@ -5,82 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Regístrate en Brasa Points para acumular puntos en Brasaland y disfrutar de descuentos y beneficios en nuestras 14 ubicaciones.">
   <title>Registro Brasaland</title>
-  <link rel="stylesheet" href="uis/web/public.min.css">
+  <link rel="stylesheet" href="uis/web/public.min.css?v=public-20261026">
 </head>
 
-<body class="bg-gray-100">
+<body class="public-site registration-page">
+<a class="skip-link" href="#registration-main">Ir al contenido principal</a>
 
-<header class="bg-white shadow p-4 flex justify-between">
-  <h1 class="font-bold text-xl">Brasaland 🔥</h1>
-  <a href="index.html">← Volver</a>
+<header class="public-header">
+  <div class="public-container header-inner">
+    <p class="public-brand">Brasaland 🔥<span class="brand-rule" aria-hidden="true"></span></p>
+    <a href="index.html" class="public-text-link">← Volver</a>
+  </div>
 </header>
 
-<main class="max-w-2xl mx-auto bg-white p-8 mt-10 rounded shadow">
+<main id="registration-main" class="public-container registration-layout">
 
-<h2 class="text-2xl font-bold mb-6 text-center">
+<div class="registration-intro">
+<h1>
   Registro Brasa Points
-</h2>
+</h1>
 
-<div class="bg-red-500 rounded p-4 mb-6 text-center">
-  <ul class="text-sm text-white space-y-2">
+<div class="registration-benefits">
+  <ul>
     <li>Acumula 1 punto por cada $10.000 COP o $5 USD</li>
     <li>Canjea tus puntos por descuentos y platos gratis</li>
     <li>Ofertas exclusivas para miembros</li>
     <li>Registro 100% digital - ¡ya no más tarjetas de papel!</li>
   </ul>
 </div>
+</div>
 
-<form id="form" class="space-y-4">
+<form id="form" class="registration-form">
 
-<input id="name" aria-label="Nombre completo" autocomplete="name" placeholder="Nombre completo" class="w-full border p-2">
-<p id="error-name" class="text-red-500"></p>
+<div class="public-field field-wide"><label for="name">Nombre completo</label>
+<input id="name" aria-label="Nombre completo" autocomplete="name" placeholder="Nombre completo" aria-describedby="error-name">
+<p id="error-name" class="field-error" aria-live="polite"></p></div>
 
-<input id="email" aria-label="Email" autocomplete="email" placeholder="Email" class="w-full border p-2">
-<p id="error-email" class="text-red-500"></p>
+<div class="public-field"><label for="email">Email</label>
+<input id="email" aria-label="Email" autocomplete="email" placeholder="Email" aria-describedby="error-email">
+<p id="error-email" class="field-error" aria-live="polite"></p></div>
 
-<input id="phone" aria-label="Teléfono" autocomplete="tel" placeholder="+57 o +1" class="w-full border p-2">
-<p id="error-phone" class="text-red-500"></p>
+<div class="public-field"><label for="phone">Teléfono</label>
+<input id="phone" aria-label="Teléfono" autocomplete="tel" placeholder="+57 o +1" aria-describedby="error-phone">
+<p id="error-phone" class="field-error" aria-live="polite"></p></div>
 
-<select id="country" aria-label="País" class="w-full border p-2">
+<div class="public-field"><label for="country">País</label>
+<select id="country" aria-label="País" aria-describedby="error-country">
   <option value="">País</option>
 </select>
-<p id="error-country" class="text-red-500"></p>
+<p id="error-country" class="field-error" aria-live="polite"></p></div>
 
-<select id="city" aria-label="Ciudad" class="w-full border p-2">
+<div class="public-field"><label for="city">Ciudad</label>
+<select id="city" aria-label="Ciudad" aria-describedby="error-city">
   <option value="">Ciudad</option>
 </select>
-<p id="error-city" class="text-red-500"></p>
+<p id="error-city" class="field-error" aria-live="polite"></p></div>
 
-<select id="location" aria-label="Ubicación" class="w-full border p-2">
+<div class="public-field field-wide"><label for="location">Ubicación</label>
+<select id="location" aria-label="Ubicación" aria-describedby="error-location">
   <option value="">Ubicación</option>
 </select>
-<p id="error-location" class="text-red-500"></p>
+<p id="error-location" class="field-error" aria-live="polite"></p></div>
 
-<select id="dietary-preferences" aria-label="Preferencias alimenticias" class="w-full border p-2">
+<div class="public-field field-wide"><label for="dietary-preferences">Preferencias alimenticias</label>
+<select id="dietary-preferences" aria-label="Preferencias alimenticias">
   <option value="">Preferencias Alimenticias</option>
   <option value="Frutas y verduras (como base)">Frutas y verduras (como base)</option>
   <option value="Legumbres (porotos, lentejas, garbanzos)">Legumbres (porotos, lentejas, garbanzos)</option>
   <option value="Carnes magras (pollo, pescado, vaca) cocinadas al horno o plancha">Carnes magras (pollo, pescado, vaca) cocinadas al horno o plancha</option>
   <option value="Alimentos ricos en fibra y granos integrales">Alimentos ricos en fibra y granos integrales</option>
 </select>
+</div>
 
-<input id="birthdate" type="date" aria-label="Fecha de nacimiento" autocomplete="bday" class="w-full border p-2">
-<p id="error-birthdate" class="text-red-500"></p>
+<div class="public-field"><label for="birthdate">Fecha de nacimiento</label>
+<input id="birthdate" type="date" aria-label="Fecha de nacimiento" autocomplete="bday" aria-describedby="error-birthdate">
+<p id="error-birthdate" class="field-error" aria-live="polite"></p></div>
 
-<select id="source" aria-label="Cómo nos conociste" class="w-full border p-2">
+<div class="public-field"><label for="source">Cómo nos conociste</label>
+<select id="source" aria-label="Cómo nos conociste" aria-describedby="error-source">
   <option value="">¿Cómo nos conociste?</option>
   <option>Instagram</option>
   <option>Facebook</option>
   <option>Publicidad</option>
 </select>
-<p id="error-source" class="text-red-500"></p>
+<p id="error-source" class="field-error" aria-live="polite"></p></div>
 
-<label>
-  <input type="checkbox" id="terms"> Acepto términos
+<div class="field-wide"><label class="terms-label">
+  <input type="checkbox" id="terms" aria-describedby="error-terms"> Acepto términos
 </label>
-<p id="error-terms" class="text-red-500"></p>
+<p id="error-terms" class="field-error" aria-live="polite"></p></div>
 
-<button class="w-full bg-red-500 text-white py-3 rounded">
+<button class="public-button field-wide">
   Enviar 🔥
 </button>
 

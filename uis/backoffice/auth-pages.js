@@ -1,6 +1,8 @@
 const TOKEN_KEY = 'brasaland.jwt';
 const API_BASE_KEY = 'brasaland.apiBase';
-const DEFAULT_API_BASE = 'https://verbose-space-goggles-wv7vwww5wgjv279v-8000.app.github.dev';
+const DEFAULT_API_BASE = ['3000', '3001'].includes(window.location.port)
+  || window.location.hostname.endsWith('.app.github.dev')
+  ? '/backend' : 'http://localhost:8000';
 
 function getAppBase() {
   const marker = '/uis/backoffice/';
@@ -58,7 +60,12 @@ function clearToken() {
 }
 
 function getApiBase() {
-  return (localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE).replace(/\/+$/, '');
+  const configuredBase = (localStorage.getItem(API_BASE_KEY) || DEFAULT_API_BASE).trim().replace(/\/+$/, '');
+  if (configuredBase === 'https://verbose-space-goggles-wv7vwww5wgjv279v-8000.app.github.dev') {
+    localStorage.setItem(API_BASE_KEY, DEFAULT_API_BASE);
+    return DEFAULT_API_BASE;
+  }
+  return configuredBase;
 }
 
 function setApiBase(value) {

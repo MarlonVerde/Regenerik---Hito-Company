@@ -75,8 +75,7 @@ async def timing_middleware(request: Request, call_next):
     )
     return response
 
-LATEST_SUMMARY: dict | None = None
-LATEST_RESULTS_CSV: str | None = None
+LATEST_RESULTS_BY_USER: dict[str, tuple[dict, str]] = {}
 
 
 @app.get("/health", response_model=HealthResponse)
@@ -103,8 +102,10 @@ def readiness() -> HealthResponse:
     response_model=IncidentAnalysisSummaryResponse,
     dependencies=[Depends(get_current_user)],
 )
-async def analyze_incidents(file: UploadFile = File(...)) -> IncidentAnalysisSummaryResponse:
-    global LATEST_SUMMARY, LATEST_RESULTS_CSV
+async def analyze_incidents(
+    file: UploadFile = File(...),
+    current_user: dict = Depends(get_current_user),
+) -> IncidentAnalysisSummaryResponse:
 
     if not file.filename:
         raise HTTPException(status_code=400, detail="Debes enviar un archivo CSV")
@@ -112,7 +113,9 @@ async def analyze_incidents(file: UploadFile = File(...)) -> IncidentAnalysisSum
     if not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=415, detail="Formato incorrecto: se espera un archivo .csv")
 
-    raw_content = await file.read()
+    raw_content = await file.read(10 * 1024 * 1024 + 1)
+    if len(raw_content) > 10 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="El archivo supera el limite de 10 MB")
     if not raw_content:
         raise HTTPException(status_code=400, detail="El fichero está vacío")
 
@@ -138,19 +141,19 @@ async def analyze_incidents(file: UploadFile = File(...)) -> IncidentAnalysisSum
             detail="Ocurrió un error al procesar el archivo. Verifica el formato e intenta de nuevo.",
         ) from error
 
-    LATEST_SUMMARY = summary
-    LATEST_RESULTS_CSV = csv_output
+    LATEST_RESULTS_BY_USER[str(current_user["id"])] = (summary, csv_output)
 
     return summary
 
 
 @app.get("/api/incidents/results/export", dependencies=[Depends(get_current_user)])
-def export_last_results() -> Response:
-    if LATEST_RESULTS_CSV is None:
+def export_last_results(current_user: dict = Depends(get_current_user)) -> Response:
+    result = LATEST_RESULTS_BY_USER.get(str(current_user["id"]))
+    if result is None:
         raise HTTPException(status_code=404, detail="No hay resultados para exportar. Ejecuta primero el análisis.")
 
     return Response(
-        content=LATEST_RESULTS_CSV,
+        content=result[1],
         media_type="text/csv; charset=utf-8",
         headers={"Content-Disposition": "attachment; filename=results.csv"},
     )
@@ -161,10 +164,11 @@ def export_last_results() -> Response:
     response_model=IncidentAnalysisSummaryResponse,
     dependencies=[Depends(get_current_user)],
 )
-def latest_results() -> IncidentAnalysisSummaryResponse:
-    if LATEST_SUMMARY is None:
+def latest_results(current_user: dict = Depends(get_current_user)) -> IncidentAnalysisSummaryResponse:
+    result = LATEST_RESULTS_BY_USER.get(str(current_user["id"]))
+    if result is None:
         raise HTTPException(status_code=404, detail="No hay análisis ejecutados todavía")
-    return LATEST_SUMMARY
+    return result[0]
 
 
 app.include_router(auth_router)

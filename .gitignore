@@ -32,3 +32,4 @@ Thumbs.db
 coverage/
 services/api/.coverage
 node_modules/
+.next/
