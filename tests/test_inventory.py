@@ -26,7 +26,7 @@ def create_product(client, headers, sku=None):
     return response
 
 
-def test_inventory_reads_require_valid_bearer_token(client, auth_headers):
+def test_inventory_reads_require_valid_bearer_token(client, admin_headers):
     invalid_headers = {"Authorization": "Bearer invalid-token"}
     endpoints = [
         ("GET", "/inventory/products", None),
@@ -49,13 +49,13 @@ def test_inventory_reads_require_valid_bearer_token(client, auth_headers):
         assert client.request(method, path, json=payload).status_code == 401
         assert client.request(method, path, headers=invalid_headers, json=payload).status_code == 401
 
-    headers, _ = auth_headers
+    headers, _ = admin_headers
     assert client.get("/inventory/products", headers=headers).status_code == 200
     assert client.get("/inventory/orders", headers=headers).status_code == 200
     assert client.get("/inventory/products/999999", headers=headers).status_code == 404
 
 
-def test_regular_user_and_admin_can_access_inventory(client, user_factory):
+def test_only_configured_admin_can_access_inventory(client, user_factory):
     user = user_factory(email="inventory-user@example.com")
     admin = user_factory(email="inventory-admin@example.com", role="admin")
     user_login = client.post("/auth/login", json={"email": user["email"], "password": "correct-password"})
@@ -63,12 +63,13 @@ def test_regular_user_and_admin_can_access_inventory(client, user_factory):
     user_headers = {"Authorization": f"Bearer {user_login.json()['access_token']}"}
     admin_headers = {"Authorization": f"Bearer {admin_login.json()['access_token']}"}
 
-    assert create_product(client, user_headers).status_code == 200
+    assert create_product(client, user_headers).status_code == 403
+    assert create_product(client, admin_headers).status_code == 200
     assert client.get("/inventory/products", headers=admin_headers).status_code == 200
 
 
-def test_product_creation_validation_duplicate_and_not_found(client, auth_headers):
-    headers, _ = auth_headers
+def test_product_creation_validation_duplicate_and_not_found(client, admin_headers):
+    headers, _ = admin_headers
     sku = f"MEAT-DUP-{uuid4()}"
     created = create_product(client, headers, sku)
     assert created.status_code == 200
@@ -84,8 +85,8 @@ def test_product_creation_validation_duplicate_and_not_found(client, auth_header
         assert invalid.status_code == 422, (field, invalid.text)
 
 
-def test_orders_validate_fields_and_calculate_stock(client, auth_headers):
-    headers, user = auth_headers
+def test_orders_validate_fields_and_calculate_stock(client, admin_headers):
+    headers, user = admin_headers
     product = create_product(client, headers)
     product_id = product.json()["id"]
 
@@ -130,8 +131,8 @@ def test_orders_validate_fields_and_calculate_stock(client, auth_headers):
     assert all(item["user_uuid"] == user["id"] for item in product_history)
 
 
-def test_zero_stock_rejects_outbound_and_missing_product_returns_404(client, auth_headers):
-    headers, _ = auth_headers
+def test_zero_stock_rejects_outbound_and_missing_product_returns_404(client, admin_headers):
+    headers, _ = admin_headers
     product = create_product(client, headers)
     product_id = product.json()["id"]
 
@@ -172,8 +173,8 @@ def test_admin_locked_product_query_uses_postgresql_row_lock():
     not os.getenv("BRASALAND_TEST_DATABASE_URL", "").startswith("postgresql"),
     reason="La concurrencia real de SELECT FOR UPDATE requiere PostgreSQL; configura BRASALAND_TEST_DATABASE_URL.",
 )
-def test_concurrent_outbound_orders_do_not_oversell_postgresql(client, auth_headers):
-    headers, _ = auth_headers
+def test_concurrent_outbound_orders_do_not_oversell_postgresql(client, admin_headers):
+    headers, _ = admin_headers
     product = create_product(client, headers)
     product_id = product.json()["id"]
     inbound = client.post(
@@ -199,3 +200,16 @@ def test_concurrent_outbound_orders_do_not_oversell_postgresql(client, auth_head
     assert sorted(response.status_code for response in responses) == [200, 400]
     stock = client.get("/inventory/products", headers=headers).json()[0]["current_stock"]
     assert stock == 3
+
+
+@pytest.mark.parametrize("method,path,payload", [
+    ("GET", "/inventory/products", None),
+    ("GET", "/inventory/products/1", None),
+    ("GET", "/inventory/orders", None),
+    ("POST", "/inventory/products", PRODUCT),
+    ("POST", "/inventory/orders/inbound", {"ingredient_id": 1, "quantity": 1, "supplier_name": "Test", "location_id": 1}),
+    ("POST", "/inventory/orders/outbound", {"ingredient_id": 1, "quantity": 1, "reason": "waste", "location_id": 1}),
+])
+def test_regular_user_cannot_access_inventory_endpoints(client, auth_headers, method, path, payload):
+    headers, _ = auth_headers
+    assert client.request(method, path, headers=headers, json=payload).status_code == 403

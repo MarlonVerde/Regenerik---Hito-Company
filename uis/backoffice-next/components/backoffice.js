@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LayoutDashboard, Truck, Package, ClipboardList, FileBarChart, UserRound, KeyRound, UsersRound, LogOut, RefreshCw } from 'lucide-react';
 import { api } from '../lib/api';
+import { canAccessView, homeForRole, publicViews } from '../lib/access.mjs';
 import Auth from './auth';
 import Dashboard from './dashboard';
 import Suppliers from './suppliers';
@@ -12,12 +13,11 @@ import Inventory from './inventory';
 import Incidents from './incidents';
 import { Account, Users } from './account';
 
-const publicViews = ['login', 'register', 'forgot-password', 'reset-password'];
 const navigation = [
   ['', 'Resumen', LayoutDashboard], ['suppliers', 'Proveedores', Truck],
   ['inventory/products', 'Productos', Package], ['inventory/orders', 'Movimientos', ClipboardList],
-  ['incidents', 'Incidentes', FileBarChart], ['account/profile', 'Perfil', UserRound],
-  ['account/change-password', 'Contrasena', KeyRound], ['users', 'Usuarios', UsersRound],
+  ['incidents', 'Incidentes', FileBarChart], ['account/profile', 'Mi Perfil', UserRound],
+  ['account/change-password', 'Cambiar Contrasena', KeyRound], ['users', 'Usuarios', UsersRound],
 ];
 
 export default function Backoffice({ view, resetToken }) {
@@ -34,7 +34,7 @@ export default function Backoffice({ view, resetToken }) {
     api('/auth/me').then(me => {
       if (!active) return;
       setUser(me);
-      if (view === 'login' || view === 'register') router.replace('/');
+      if (view === 'login' || view === 'register' || (!publicViews.includes(view) && !canAccessView(me.role, view))) router.replace(homeForRole(me.role));
     }).catch(error => {
       if (!active) return;
       if (error.status === 401) {
@@ -55,8 +55,9 @@ export default function Backoffice({ view, resetToken }) {
   }, [view, router]);
 
   async function onLogin() {
-    setUser(await api('/auth/me'));
-    router.replace('/');
+    const me = await api('/auth/me');
+    setUser(me);
+    router.replace(homeForRole(me.role));
   }
 
   async function logout() {
@@ -81,13 +82,13 @@ export default function Backoffice({ view, resetToken }) {
   else content = <section><h1>Pagina no encontrada</h1><Link href="/">Volver al resumen</Link></section>;
 
   return <>
-    <header className="topbar"><a href="/" className="brand">BRASALAND <span>BACKOFFICE</span></a>
+    <header className="topbar"><Link href={user ? homeForRole(user.role) : '/login/'} className="brand">BRASALAND <span>BACKOFFICE</span></Link>
       {user && <div className="session"><span>{user.email}</span><button onClick={logout}><LogOut size={16} /> Salir</button></div>}
     </header>
     <div className={user && !authView ? 'workspace' : ''}>
-      {user && !authView && <aside><nav aria-label="Principal">{navigation.filter(([path]) => path !== 'users' || user.role === 'admin').map(([path, label, Icon]) => <Link href={`/${path}${path ? '/' : ''}`} key={path} aria-current={view === path ? 'page' : undefined}><Icon size={18} />{label}</Link>)}</nav><div className="sidebar-note">Brasaland Operations</div></aside>}
+      {user && !authView && <aside><nav aria-label="Principal">{navigation.filter(([path]) => canAccessView(user.role, path)).map(([path, label, Icon]) => <Link href={`/${path}${path ? '/' : ''}`} key={path} aria-current={view === path ? 'page' : undefined}><Icon size={18} />{label}</Link>)}</nav><div className="sidebar-note">Brasaland Operations</div></aside>}
       <main aria-busy={loading}>
-        {loading ? <p role="status" className="muted">Cargando sesion...</p> : authView || !user ? <Auth view={authView ? view : 'login'} resetToken={resetToken} onLogin={onLogin} /> : content}
+        {loading ? <p role="status" className="muted">Cargando sesion...</p> : authView || !user ? <Auth view={authView ? view : 'login'} resetToken={resetToken} onLogin={onLogin} /> : canAccessView(user.role, view) ? content : <p role="status" className="muted">Redirigiendo...</p>}
         {message && <div role="alert" className="notice">{message}<button onClick={() => { setMessage(''); setAttempt(value => value + 1); }} title="Reintentar"><RefreshCw size={16} /></button></div>}
       </main>
     </div>

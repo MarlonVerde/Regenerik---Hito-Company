@@ -50,7 +50,7 @@ La API también expone inventario FastAPI + SQLModel sobre PostgreSQL. Usuarios 
 - `GET /health/ready`
   - Readiness: ejecuta `SELECT 1`; devuelve `503` si PostgreSQL no está disponible.
 
-### Inventario (requiere Bearer)
+### Inventario (requiere Bearer y administrador)
 
 - `GET /inventory/products`, `GET /inventory/products/{product_id}`
 - `POST /inventory/products` con `name`, `sku`, `unit`, `category` y `country`.
@@ -73,7 +73,13 @@ Si usas pip en vez de uv, instala `requirements.txt` para runtime; para ejecutar
 
 `main` no crea tablas durante la importación. Ejecuta `init_db.py` una vez para crear las tablas iniciales; el repositorio aún no contiene migraciones. Configura `CORS_ALLOWED_ORIGINS` como lista separada por comas de orígenes exactos; el valor por defecto permite solo los servidores locales documentados.
 
-Para una cuenta administrativa **solo de desarrollo**, establece `APP_ENV=development`, `BOOTSTRAP_ADMIN_EMAIL` y `BOOTSTRAP_ADMIN_PASSWORD` (mínimo 8 caracteres) en el entorno local y ejecuta `uv run seed-admin`. El registro público siempre crea rol `user`. No guardes credenciales ni datos de `auth.json` en Git.
+Para habilitar la cuenta administrativa, establece `APP_ENV=development`, `BOOTSTRAP_ADMIN_EMAIL` y `BOOTSTRAP_ADMIN_PASSWORD` (mínimo 8 caracteres) en el entorno local y ejecuta `uv run seed-admin`. Si la cuenta existe, la herramienta verifica la contrasena configurada antes de asignar el rol `admin`, sin cambiar su contrasena ni su perfil. Si no existe, crea la cuenta como antes. No guardes credenciales ni datos de `auth.json` en Git.
+
+Solo la cuenta activa cuyo correo coincide con `BOOTSTRAP_ADMIN_EMAIL` y cuyo rol almacenado es `admin` obtiene acceso administrativo. La comparacion del correo ignora mayusculas y espacios exteriores. El registro publico rechaza ese correo y crea las demas cuentas con rol `user`; no permite seleccionar privilegios. El administrador puede listar y modificar usuarios, pero no conceder ADMIN a otras cuentas por HTTP ni reasignar el correo reservado.
+
+Las demas cuentas solo acceden a Incidentes, Mi Perfil y Cambio de Contrasena. Inventario, proveedores y gestion de usuarios requieren administrador, tanto en FastAPI como en las rutas y el menu Next.js. Los roles antiguos de otras cuentas no conceden acceso administrativo. No se realiza ninguna reconciliacion masiva de datos. Los tokens de recuperacion de contrasena no se aceptan como sesiones.
+
+La variable administrativa pertenece exclusivamente al backend. Con Docker Compose se recibe desde el `.env` de la raiz; no se utiliza ninguna variable `NEXT_PUBLIC_` para permisos.
 
 `BRASALAND_DATA_DIR` permite mover TinyDB a una carpeta persistente; si no se define, se usa `services/api/data/local`. `BRASALAND_SEED_USER_ID` configura el usuario local usado por `services/seed.py`.
 

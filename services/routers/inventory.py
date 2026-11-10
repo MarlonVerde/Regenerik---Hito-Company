@@ -17,12 +17,12 @@ from schemas import (
 )
 
 # Ajustá solamente este import a la ubicación REAL de tu auth existente.
-from auth import get_current_user
+from auth import get_current_user, require_admin
 
 router = APIRouter(
     prefix="/inventory",
     tags=["inventory"],
-    dependencies=[Depends(get_current_user)],
+    dependencies=[Depends(require_admin)],
 )
 
 INVENTORY_PRODUCTS_TTL_SECONDS = 20

@@ -307,6 +307,8 @@ class ProfileCreate(ProfileBase):
 
 
 class ProfileUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     name: str | None = None
     phone: str | None = None
     address: str | None = None

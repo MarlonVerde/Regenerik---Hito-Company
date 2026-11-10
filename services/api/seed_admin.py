@@ -16,12 +16,18 @@ def main() -> None:
     if not email or len(password) < 8:
         raise SystemExit("Configura email y contraseña de bootstrap en el entorno local (mínimo 8 caracteres).")
 
-    from models import UserCreate, UserRole
+    from auth import verify_password
+    from models import UserCreate, UserRole, UserUpdate
     from stores import user_store
     from user_service import create_user
 
-    if user_store.get_by_email(email) is not None:
-        print("La cuenta de bootstrap ya existe; no se realizaron cambios.")
+    existing = user_store.get_by_email(email)
+    if existing is not None:
+        if not existing.get("is_active", True) or not verify_password(password, existing["hashed_password"]):
+            raise SystemExit("No se pudo verificar la cuenta existente con las credenciales configuradas.")
+        if existing.get("role") != UserRole.admin.value:
+            user_store.update(existing["id"], UserUpdate(role=UserRole.admin))
+        print("Cuenta administrativa existente habilitada; contrasena y perfil conservados.")
         return
 
     create_user(UserCreate(email=email, password=password, role=UserRole.admin))

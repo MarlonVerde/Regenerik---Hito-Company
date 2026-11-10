@@ -19,6 +19,8 @@ os.environ["DATABASE_URL"] = os.getenv(
 )
 os.environ["AUTH_SECRET_KEY"] = secrets.token_urlsafe(32)
 os.environ["EMAIL_PROVIDER"] = ""
+os.environ["BOOTSTRAP_ADMIN_EMAIL"] = ""
+os.environ["BOOTSTRAP_ADMIN_PASSWORD"] = ""
 
 from auth import hash_password  # noqa: E402
 import services.models  # noqa: E402,F401
@@ -36,7 +38,7 @@ def client():
 
 
 @pytest.fixture
-def user_factory():
+def user_factory(monkeypatch):
     created_ids = []
 
     def create(email="test@example.com", password="correct-password", role="user"):
@@ -45,6 +47,8 @@ def user_factory():
         payload = UserCreate(email=email, password=password, role=UserRole(role))
         record = user_store.create(payload, hash_password(password))
         profile_store.create(ProfileCreate(user_id=record["id"], name="Test User"))
+        if role == "admin":
+            monkeypatch.setenv("BOOTSTRAP_ADMIN_EMAIL", email)
         created_ids.append(record["id"])
         return record
 
@@ -58,6 +62,14 @@ def user_factory():
 @pytest.fixture
 def auth_headers(client, user_factory):
     user = user_factory()
+    response = client.post("/auth/login", json={"email": user["email"], "password": "correct-password"})
+    assert response.status_code == 200
+    return {"Authorization": f"Bearer {response.json()['access_token']}"}, user
+
+
+@pytest.fixture
+def admin_headers(client, user_factory):
+    user = user_factory(email="configured-admin@example.test", role="admin")
     response = client.post("/auth/login", json={"email": user["email"], "password": "correct-password"})
     assert response.status_code == 200
     return {"Authorization": f"Bearer {response.json()['access_token']}"}, user

@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 
+from auth import require_admin
 from cache import TTLMemoryCache
 from models import (
     ApiMessageResponse,
@@ -19,7 +20,7 @@ from models import (
 from stores import supplier_store
 
 logger = logging.getLogger(__name__)
-router = APIRouter(tags=["suppliers"])
+router = APIRouter(tags=["suppliers"], dependencies=[Depends(require_admin)])
 store = supplier_store
 SUPPLIER_LIST_TTL_SECONDS = 60
 SUPPLIER_DETAIL_TTL_SECONDS = 120

@@ -1,19 +1,22 @@
-def test_list_suppliers_filters_and_returns_items(client, auth_headers):
-    headers, _ = auth_headers
+import pytest
+
+
+def test_list_suppliers_filters_and_returns_items(client, admin_headers):
+    headers, _ = admin_headers
     response = client.get("/suppliers", headers=headers, params={"country": "USA", "status": "active"})
     assert response.status_code == 200
     assert response.json()["total"] > 0
     assert all(item["country"] == "USA" and item["status"] == "active" for item in response.json()["items"])
 
 
-def test_supplier_filter_rejects_unknown_country(client, auth_headers):
-    headers, _ = auth_headers
+def test_supplier_filter_rejects_unknown_country(client, admin_headers):
+    headers, _ = admin_headers
     response = client.get("/suppliers", headers=headers, params={"country": "Mars"})
     assert response.status_code == 400
 
 
-def test_supplier_lifecycle(client, auth_headers):
-    headers, _ = auth_headers
+def test_supplier_lifecycle(client, admin_headers):
+    headers, _ = admin_headers
     payload = {"name": "Test Supplier", "country": "USA", "categories": ["carne"], "rate_per_unit": 9.5, "currency": "USD", "contact_email": "sales@test.com"}
     created = client.post("/suppliers", headers=headers, json=payload)
     assert created.status_code == 201
@@ -32,7 +35,20 @@ def test_supplier_lifecycle(client, auth_headers):
     assert missing.status_code == 404
 
 
-def test_supplier_creation_rejects_inconsistent_currency(client, auth_headers):
-    headers, _ = auth_headers
+def test_supplier_creation_rejects_inconsistent_currency(client, admin_headers):
+    headers, _ = admin_headers
     response = client.post("/suppliers", headers=headers, json={"name": "Invalid", "country": "USA", "categories": ["carne"], "rate_per_unit": 1, "currency": "COP"})
     assert response.status_code == 422
+
+
+@pytest.mark.parametrize("prefix", ["/suppliers", "/api/suppliers"])
+@pytest.mark.parametrize("method,suffix,payload", [
+    ("GET", "", None), ("GET", "/missing", None),
+    ("POST", "", {"name": "Test", "country": "USA", "categories": ["carne"], "rate_per_unit": 1, "currency": "USD"}),
+    ("PATCH", "/missing/rate", {"rate_per_unit": 1}),
+    ("PATCH", "/missing/status", {"status": "active"}),
+    ("DELETE", "/missing", None),
+])
+def test_regular_user_cannot_access_supplier_endpoints(client, auth_headers, prefix, method, suffix, payload):
+    headers, _ = auth_headers
+    assert client.request(method, prefix + suffix, headers=headers, json=payload).status_code == 403

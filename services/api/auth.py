@@ -46,6 +46,19 @@ def get_user_store():
     return user_store
 
 
+def get_admin_email() -> str:
+    return os.getenv("BOOTSTRAP_ADMIN_EMAIL", "").strip().lower()
+
+
+def is_admin_email(email: str) -> bool:
+    configured = get_admin_email()
+    return bool(configured) and email.strip().lower() == configured
+
+
+def get_user_role(user: dict) -> str:
+    return "admin" if user.get("role") == "admin" and is_admin_email(user["email"]) else "user"
+
+
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
@@ -127,7 +140,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), users=Depends(get_user
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
-        if user_id is None:
+        if user_id is None or payload.get("scope") is not None:
             raise credentials_exception
     except JWTError as error:
         raise credentials_exception from error
@@ -139,4 +152,10 @@ def get_current_user(token: str = Depends(oauth2_scheme), users=Depends(get_user
     if not user.get("is_active", True):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario inactivo")
 
-    return user
+    return {**user, "role": get_user_role(user)}
+
+
+def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
+    if current_user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Acceso exclusivo del administrador")
+    return current_user

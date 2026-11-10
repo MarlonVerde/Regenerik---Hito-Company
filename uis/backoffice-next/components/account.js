@@ -25,7 +25,7 @@ export function Account({ user, password = false, onUpdate }) {
 function UserRow({ user, admin, reload }) {
   async function save(values) {
     const payload = { email: values.get('email') };
-    if (admin) { payload.role = values.get('role'); payload.is_active = values.get('is_active') === 'true'; }
+    if (admin) payload.is_active = values.get('is_active') === 'true';
     await api(`/users/${user.id}`, { method: 'PUT', body: JSON.stringify(payload) });
     reload();
   }
@@ -35,7 +35,7 @@ function UserRow({ user, admin, reload }) {
     reload();
     return 'Cuenta eliminada.';
   }
-  return <article className="user-row"><SubmitForm onSubmit={save} label="Actualizar" name={`Usuario ${user.email}`} className="grid-form"><Field label="Email"><input name="email" type="email" defaultValue={user.email} required /></Field>{admin && <><Field label="Rol"><select name="role" defaultValue={user.role}><option>user</option><option>manager</option><option>admin</option></select></Field><Field label="Estado"><select name="is_active" defaultValue={String(user.is_active)}><option value="true">Activo</option><option value="false">Inactivo</option></select></Field></>}</SubmitForm>{admin && <SubmitForm onSubmit={remove} label="Eliminar usuario" name={`Eliminar ${user.email}`} />}</article>;
+  return <article className="user-row"><SubmitForm onSubmit={save} label="Actualizar" name={`Usuario ${user.email}`} className="grid-form"><Field label="Email"><input name="email" type="email" defaultValue={user.email} readOnly={user.role === 'admin'} required /></Field>{admin && <><Field label="Rol"><input value={user.role} readOnly /></Field><Field label="Estado"><select name="is_active" defaultValue={String(user.is_active)}><option value="true">Activo</option><option value="false">Inactivo</option></select></Field></>}</SubmitForm>{admin && user.role !== 'admin' && <SubmitForm onSubmit={remove} label="Eliminar usuario" name={`Eliminar ${user.email}`} />}</article>;
 }
 
 export function Users({ currentUser }) {

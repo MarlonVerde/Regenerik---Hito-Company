@@ -57,6 +57,23 @@ def test_me_requires_token_and_returns_profile(client, auth_headers):
     assert unauthorized.status_code == 401
 
 
+def test_admin_access_requires_configured_account(client, user_factory, monkeypatch):
+    configured = user_factory(email="configured-admin@example.test", role="admin")
+    unconfigured = user_factory(email="unconfigured-admin@example.test", role="admin")
+    monkeypatch.setenv("BOOTSTRAP_ADMIN_EMAIL", " CONFIGURED-ADMIN@EXAMPLE.TEST ")
+    for user, expected in [(configured, "admin"), (unconfigured, "user")]:
+        token, _ = auth.create_access_token(user["id"])
+        response = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+        assert response.status_code == 200
+        assert response.json()["role"] == expected
+
+
+def test_recovery_token_cannot_authenticate(client, user_factory):
+    user = user_factory(email="recovery-scope@example.test")
+    token, _ = auth.create_password_reset_token(user["id"], user["hashed_password"])
+    assert client.get("/auth/me", headers={"Authorization": f"Bearer {token}"}).status_code == 401
+
+
 def test_password_reset_token_is_single_use(client, user_factory, monkeypatch):
     user = user_factory(email="reset@example.com")
     monkeypatch.setattr("routes.auth.send_password_reset_email", lambda **kwargs: None)

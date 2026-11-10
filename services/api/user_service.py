@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import HTTPException, status
 
-from auth import hash_password, verify_password
+from auth import get_user_role, hash_password, is_admin_email, verify_password
 from models import ProfileCreate, UserCreate, UserPublic, UserRole, UserUpdate
 from stores import profile_store, user_store
 
@@ -12,7 +12,7 @@ def to_public_user(record: dict) -> dict:
         id=record["id"],
         email=record["email"],
         is_active=record["is_active"],
-        role=record["role"],
+        role=get_user_role(record),
         created_at=record["created_at"],
         updated_at=record["updated_at"],
     ).model_dump(mode="json")
@@ -58,19 +58,26 @@ def ensure_user_access(current_user: dict, target_user_id: str) -> None:
 
 
 def update_user(user_id: str, payload: UserUpdate, current_user: dict) -> dict | None:
-    ensure_user_access(current_user=current_user, target_user_id=user_id)
-
-    if payload.role is not None and current_user.get("role") != UserRole.admin.value:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Solo admin puede cambiar role")
-
-    if payload.is_active is not None and current_user.get("role") != UserRole.admin.value:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Solo admin puede cambiar is_active")
+    if current_user.get("role") != UserRole.admin.value:
+        raise HTTPException(status_code=403, detail="Solo el administrador puede gestionar usuarios")
+    current = user_store.get(user_id)
+    if current is None:
+        return None
+    reserved = is_admin_email(current["email"])
+    if payload.role is not None and (payload.role != UserRole.user or reserved):
+        raise HTTPException(status_code=403, detail="El administrador se habilita exclusivamente desde el servidor")
+    if payload.email is not None and payload.email != current["email"].strip().lower():
+        if reserved or is_admin_email(payload.email):
+            raise HTTPException(status_code=403, detail="No se puede reasignar el correo administrativo")
+    if reserved and payload.is_active is False:
+        raise HTTPException(status_code=403, detail="No se puede desactivar la cuenta administrativa")
 
     return user_store.update(user_id=user_id, payload=payload)
 
 
 def delete_user(user_id: str, current_user: dict) -> bool:
-    ensure_user_access(current_user=current_user, target_user_id=user_id)
+    if current_user.get("role") != UserRole.admin.value or user_id == current_user["id"]:
+        raise HTTPException(status_code=403, detail="No autorizado para eliminar esta cuenta")
     deleted = user_store.delete(user_id)
     if deleted:
         profile_store.delete_by_user_id(user_id)

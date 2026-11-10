@@ -4,7 +4,7 @@ import logging
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from auth import get_current_user
+from auth import get_current_user, is_admin_email, require_admin
 from models import ApiMessageResponse, UserCreate, UserListResponse, UserPublic, UserRole, UserUpdate
 from user_service import (
     create_user as svc_create_user,
@@ -22,6 +22,8 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 @router.post("", status_code=201, response_model=UserPublic)
 def create_user(payload: UserCreate) -> UserPublic:
+    if is_admin_email(payload.email):
+        raise HTTPException(status_code=403, detail="Esta cuenta requiere habilitacion administrativa local")
     try:
         public_payload = payload.model_copy(update={"role": UserRole.user})
         created = svc_create_user(payload=public_payload)
@@ -33,8 +35,8 @@ def create_user(payload: UserCreate) -> UserPublic:
 
 
 @router.get("", response_model=UserListResponse)
-def list_users(current_user: dict = Depends(get_current_user)) -> UserListResponse:
-    records = svc_list_users() if current_user.get("role") == UserRole.admin.value else [current_user]
+def list_users(current_user: dict = Depends(require_admin)) -> UserListResponse:
+    records = svc_list_users()
     users = [to_public_user(user) for user in records]
     return {"items": users, "total": len(users)}
 
@@ -49,7 +51,7 @@ def get_user(user_id: str, current_user: dict = Depends(get_current_user)) -> Us
 
 
 @router.put("/{user_id}", response_model=UserPublic)
-def update_user(user_id: str, payload: UserUpdate, current_user: dict = Depends(get_current_user)) -> UserPublic:
+def update_user(user_id: str, payload: UserUpdate, current_user: dict = Depends(require_admin)) -> UserPublic:
     try:
         updated = svc_update_user(user_id=user_id, payload=payload, current_user=current_user)
     except ValueError as error:
@@ -63,7 +65,7 @@ def update_user(user_id: str, payload: UserUpdate, current_user: dict = Depends(
 
 
 @router.delete("/{user_id}", response_model=ApiMessageResponse)
-def delete_user(user_id: str, current_user: dict = Depends(get_current_user)) -> ApiMessageResponse:
+def delete_user(user_id: str, current_user: dict = Depends(require_admin)) -> ApiMessageResponse:
     deleted = svc_delete_user(user_id=user_id, current_user=current_user)
     if not deleted:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
