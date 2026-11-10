@@ -82,7 +82,7 @@ export default function Backoffice({ view, resetToken }) {
   else content = <section><h1>Pagina no encontrada</h1><Link href="/">Volver al resumen</Link></section>;
 
   return <>
-    <header className="topbar"><Link href={user ? homeForRole(user.role) : '/login/'} className="brand">BRASALAND <span>BACKOFFICE</span></Link>
+    <header className="topbar"><a href="/" className="brand">BRASALAND <span>BACKOFFICE</span></a>
       {user && <div className="session"><span>{user.email}</span><button onClick={logout}><LogOut size={16} /> Salir</button></div>}
     </header>
     <div className={user && !authView ? 'workspace' : ''}>
